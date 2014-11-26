@@ -1,0 +1,23 @@
+			<div class="row-fluid" style="margin-top:100px">
+				<div class="well span5 center login-box">
+          <%= form_for @user, url: { :action => "checklogin" }, :class => "form-horizontal" do |f| %>
+          <%= hidden_field_tag :id, @authorize_id %>
+						<fieldset>
+							<div class="input-prepend" title="Username" data-rel="tooltip">
+								<span class="add-on"><i class="icon-user"></i></span>
+                <%= f.text_field :account, :placeholder => "请输入登录帐号", :class => "input-large span10", :autofocus => '' %>
+							</div>
+							<div class="clearfix"></div>
+							<div class="input-prepend" title="Password" data-rel="tooltip">
+								<span class="add-on"><i class="icon-lock"></i></span>
+                <%= f.password_field :pwd, :class => "input-large span10" %>
+							</div>
+							<div class="clearfix"></div>
+							<div class="clearfix"></div>
+							<p class="center span5">
+							<button type="submit" class="btn btn-primary">登录</button>
+							</p>
+						</fieldset>
+          <% end %>
+				</div><!--/span-->
+			</div><!--/row-->
