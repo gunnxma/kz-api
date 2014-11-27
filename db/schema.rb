@@ -11,7 +11,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141125070702) do
+ActiveRecord::Schema.define(version: 20141127074950) do
+
+  create_table "departments", force: true do |t|
+    t.integer  "unit_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "duties", force: true do |t|
+    t.integer  "unit_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "grades", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "klasses", force: true do |t|
+    t.integer  "unit_id"
+    t.string   "name"
+    t.integer  "year"
+    t.integer  "grade_id"
+    t.integer  "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "nations", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "oauth_access_grants", force: true do |t|
     t.integer  "resource_owner_id", null: false
@@ -52,12 +88,84 @@ ActiveRecord::Schema.define(version: 20141125070702) do
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true
 
+  create_table "ranks", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "roles", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "school_ranks", force: true do |t|
+    t.integer  "unit_id"
+    t.integer  "rank_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "subjects", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "unit_id"
+  end
+
+  create_table "teacher_klasses", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "klass_id"
+    t.integer  "subject_id"
+    t.integer  "is_charge"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "unit_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "units", force: true do |t|
+    t.string   "name"
+    t.integer  "unit_type_id"
+    t.string   "region_code"
+    t.string   "address"
+    t.string   "phone"
+    t.integer  "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_subjects", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "subject_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "account"
     t.string   "pwd"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "role_id"
+    t.string   "email"
+    t.string   "mobile"
+    t.integer  "unit_id"
+    t.string   "gender"
+    t.datetime "birthday"
+    t.integer  "nation_id"
+    t.integer  "department_id"
+    t.integer  "duty_id"
+    t.string   "logo"
+    t.integer  "status"
+    t.integer  "old_id"
+    t.integer  "klass_id"
   end
 
 end

@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  unit_type_id: 1
+  school_rank_id: 1
+  region_code: MyString
+  address: MyString
+  phone: MyString
+  status: 1
+
+two:
+  name: MyString
+  unit_type_id: 1
+  school_rank_id: 1
+  region_code: MyString
+  address: MyString
+  phone: MyString
+  status: 1

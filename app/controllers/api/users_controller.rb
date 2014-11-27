@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
 	def index
-		@users = User.all.select(:id,:name) if check_authorize		
+		#@users = User.all.select(:id,:name) if check_authorize
 	end
 
 	def show
