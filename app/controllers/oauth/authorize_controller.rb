@@ -11,7 +11,6 @@ class Oauth::AuthorizeController < ApplicationController
 		
 			if authorize.save
 				if !cookies[:user_id] || cookies[:user_id].empty?
-					logger.debug("authorize: #{authorize.id}")
 					redirect_to index_login_path(:id => authorize.id)
 				else
 					redirect_to :action => :response_code, :authorize_id => authorize.id
