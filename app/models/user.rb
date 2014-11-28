@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
 	belongs_to :department
 	belongs_to :duty
 	has_many :user_subjects, :dependent => :destroy
-  has_many :subjects, :through :user_subjects
+  has_many :subjects, :through => :user_subjects
   belongs_to :klass
   has_many :teacher_klasses, :dependent => :destroy
   has_many :klasses, :through => :teacher_klasses
