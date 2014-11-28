@@ -39,5 +39,3 @@ gem 'spring',        group: :development
 # gem 'debugger', group: [:development, :test]
 
 gem 'jbuilder', '~> 2.0'
-
-gem 'puma'
