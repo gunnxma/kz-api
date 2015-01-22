@@ -1,30 +1,32 @@
-<%= form_for application, html: {class: 'form-horizontal', role: 'form'} do |f| %>
-  <% if application.errors.any? %>
-    <div class="alert alert-danger" data-alert><p>Whoops! Check your form for possible errors</p></div>
-  <% end %>
+<%= simple_form_for application do |f| %>
 
-  <%= content_tag :div, class: "form-group#{' has-error' if application.errors[:name].present?}" do %>
-    <%= f.label :name, class: 'col-sm-2 control-label', for: 'application_name' %>
-    <div class="col-sm-10">
-      <%= f.text_field :name, class: 'form-control' %>
-    </div>
-  <% end %>
-
-  <%= content_tag :div, class: "form-group#{' has-error' if application.errors[:redirect_uri].present?}" do %>
-    <%= f.label :redirect_uri, class: 'col-sm-2 control-label', for: 'application_redirect_uri' %>
-    <div class="col-sm-10">
-      <%= f.text_area :redirect_uri, class: 'form-control' %>
-      <span class="help-block">
-         Use one line per URI
-        </span>      
-    </div>
-  <% end %>
-
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <%= f.submit 'Submit', class: "btn btn-primary" %>
-      <%= link_to "Cancel", oauth_applications_path, :class => "btn btn-default" %>
-    </div>
-  </div>
+<table class="loginPage" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr style="border-bottom:#e2e2e2 solid 1px; font-size:25px;">
+    <td colspan="2">添加应用</td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>应用名称：</strong></td>
+    <td width="78%" align="left">
+      <%= f.text_field :name, class: 'shuru', size: '30' %>
+    </td>
+  </tr>   
+  <tr>
+    <td width="22%" align="right"><strong>所属单位：</strong></td>
+    <td width="78%" align="left">
+      <%= f.association :unit, :label => false %>
+    </td>
+  </tr>  
+  <tr>
+    <td width="22%" align="right"><strong>URL：</strong></td>
+    <td width="78%" align="left">
+      <%= f.text_area :redirect_uri, class: 'shuru', size: '30' %>
+    </td>
+  </tr> 
+  <tr>
+    <td colspan="2" align="center">
+      <%= f.submit "保存", :class => "btn" %>
+      <%= link_to "取消", oauth_applications_path %>
+    </td>
+  </tr>
+</table>
 <% end %>
-

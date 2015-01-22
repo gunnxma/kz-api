@@ -1,14 +1,60 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>KzApi</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>个人中心</title>
+	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
+
 <body>
+<div class="top">
+	<div class="l">
+		<div class="logo"></div>
+		<div class="bz">宽正教育教学平台用户中心</div>
+	</div>
+	<div class="r">
+		<div><strong>欢迎您，<%= @current_user.name %>&nbsp;&nbsp;身份：<%= @current_user.role.name %>&nbsp;&nbsp;所在单位：<%= @current_user.unit.name %>&nbsp;&nbsp;单位类型：<%= @current_user.unit.unit_type.name %></strong>&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "退出系统", index_logout_path %></div>
+		<div style="display:none"><strong>您的账户余额：<font color="#FFFF00" style="font-size:16px;">￥176.00</font>&nbsp;&nbsp;&nbsp;&nbsp;<a href="###">我要充值</a></strong></div>
+	</div>
+</div>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="200" align="left" valign="top">
+		<div class="leftNav">
+			<span class="first">基础设置</span>
+			<div>
+				<%= link_to "个人信息设置", edit_user_path(@current_user), :class => "second" %>
+				<% if @current_user.role.name == "管理员" %>
+				<%= link_to "单位信息设置", edit_unit_path(@current_user.unit), :class => "second" %>
+				<%= link_to "部门管理", :departments, :class => "second" %>
+				<%= link_to "职务管理", :duties, :class => "second" %>
+				<%= link_to "班级管理", :klasses, :class => "second" %>
+				<%= link_to "帐号管理", :users, :class => "second" %>
+				<a href="http://119.254.111.38:8090/" class="second" target="_blank">宽正教育云</a>
+				<% end %>	
+			</div>
+			<span class="first">已开通服务</span>
+			<div>
+				<% @current_user.unit.oauth_applications.each do |item| %>
+				<%= link_to item.name, oauth_authorize_index_path(:application_id => item.uid), { :class => "second", :target => "_blank" } %>
+				<% end %>
+			</div>
+			<!--<span class="first">财务管理</span>
+			<div>
+			</div>-->
+		</div>
+	</td>
+    <td style="padding:0px 10px;" align="left" valign="top">
+	
+		<%= yield %>
 
-<%= yield %>
-
+	</td>
+  </tr>
+</table>
+<div class="banquan">
+	版权所有：淄博宽正数码网络科技有限公司&nbsp;&nbsp;&nbsp;&nbsp;电话：0533-2155736&nbsp;&nbsp;&nbsp;&nbsp;E-mail：800@kuanzheng.com
+</div>
 </body>
 </html>

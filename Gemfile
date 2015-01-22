@@ -37,3 +37,23 @@ gem 'spring',        group: :development
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+gem 'china_city'
+
+gem 'simple_form'
+
+gem 'jquery-ui-rails'
+
+gem 'carrierwave'
+
+gem "mini_magick"
+
+gem 'ransack', github: 'activerecord-hackery/ransack', branch: 'rails-4.1'
+
+gem 'will_paginate', '~> 3.0'
+
+gem 'mail', '~> 2.6.3'
+
+gem "puma"
+
+gem 'mysql2'

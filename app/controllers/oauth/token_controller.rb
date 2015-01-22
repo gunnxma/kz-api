@@ -1,5 +1,6 @@
 class Oauth::TokenController < ApplicationController
 	skip_before_filter :verify_authenticity_token
+	layout "nohead"
 
 	def create
 		application = OauthApplication.where('uid = ? and secret = ?', params[:application_id], params[:secret])

@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'index#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -60,11 +60,33 @@ Rails.application.routes.draw do
     end
     resources :token
   end
+  namespace :api do
+    resources :users
+    post 'kindeditor/upload'
+    resources :grades
+    resources :subjects
+    resources :departments
+  end
 
   get 'index/login'
   post 'index/checklogin'
+  get 'index/upload_form'
+  post 'index/upload'
+  get 'index/logout'
+  get 'index/forget'
+  post 'index/send_pwd'
 
-  namespace :api do
-    resources :users
-  end
+  get 'units/active'
+
+  resources :departments
+  resources :duties
+  resources :units
+
+  get 'users/set_subject'
+  delete 'users/del_subject'
+  post 'users/save_subject'
+  resources :users
+  resources :klasses
+
+  mount ChinaCity::Engine => '/china_city'
 end

@@ -1,0 +1,78 @@
+<table class="liebiao" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="22%" align="right"><strong>帐号：</strong></td>
+    <td width="78%" align="left">
+      <%#= f.text_field :name, :class => "shuru", :size => "30" %>
+      <%= @user.account %>
+    </td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>姓名：</strong></td>
+    <td width="78%" align="left">
+      <%#= f.text_field :name, :class => "shuru", :size => "30" %>
+      <%= f.input_field :name, class: 'shuru', size: '30' %><%= f.error :name %>
+    </td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>头像：</strong></td>
+    <td width="78%" align="left">
+    	<%= image_tag(@user.logo.thumb.url) if @user.logo? %>
+      <%= f.file_field :logo %>
+    	<%= f.hidden_field :logo_cache %>
+    </td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>密码：</strong></td>
+    <td width="78%" align="left"><%= password_field_tag 'pwd', nil, class: 'shuru', size: '30' %><%= f.hint '不修改密码请留空' %><%= f.error :pwd %></td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>确认密码：</strong></td>
+    <td width="78%" align="left"><%= password_field_tag 'pwd_confirmation', nil, class: 'shuru', size: '30' %></td>
+  </tr>  
+	<tr>
+    <td width="22%" align="right"><strong>性别：</strong></td>
+    <td width="78%" align="left"><%= f.collection_radio_buttons :gender, [['男', '男'] ,['女', '女']], :first, :last %></td>
+  </tr> 
+  <% if @current_user.role_id != 1 %>
+	<tr>
+    <td width="22%" align="right"><strong>出生日期：</strong></td>
+    <td width="78%" align="left"><%= f.text_field :birthday, :class => "datepicker", :readonly => true %></td>
+  </tr> 
+	<tr>
+    <td width="22%" align="right"><strong>民族：</strong></td>
+    <td width="78%" align="left"><%= f.association :nation, label: false %></td>
+  </tr> 
+  <% end %>
+	<tr>
+    <td width="22%" align="right"><strong>身份：</strong></td>
+    <td width="78%" align="left"><%= @user.role.name if @user.role %></td>
+  </tr> 
+  <% if @current_user.role_id != 1 %>
+	<tr>
+    <td width="22%" align="right"><strong>所属部门：</strong></td>
+    <td width="78%" align="left"><%= @user.department.name if @user.department %></td>
+  </tr> 
+  <tr>
+  	<td width="22%" align="right"><strong>所属职务：</strong></td>
+    <td width="78%" align="left"><%= @user.duty.name if @user.duty %></td>
+  </tr> 
+  <% end %>
+  <tr>
+    <td width="22%" align="right"><strong>EMAIL：</strong></td>
+    <td width="78%" align="left"><%= f.text_field :email, :class => "shuru", :size => "30" %><%= f.error :email %></td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>手机：</strong></td>
+    <td width="78%" align="left"><%= f.text_field :mobile, :class => "shuru", :size => "30" %><%= f.error :mobile %></td>
+  </tr> 
+  <tr>
+    <td width="22%" align="right"><strong>所在单位：</strong></td>
+    <td width="78%" align="left"><%= @user.unit.name if @user.unit %></td>
+  </tr> 
+  
+  <tr>
+    <td colspan="2" align="center">
+      <%= f.submit "保存", :class => "btn" %>
+    </td>
+  </tr>
+</table>

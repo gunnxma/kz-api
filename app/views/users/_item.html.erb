@@ -1,0 +1,17 @@
+<tr>
+    <td align="center"><%= user.role.name if user.role %></td>
+    <td align="center"><%= link_to user.name, user_path(user) %></td>
+    <td align="center"><%= user.account %></td>
+    <td align="center">
+        <% user.klasses.each do |klass| %>
+        <%= "#{klass.year}级#{klass.name}班" %>&nbsp;&nbsp;
+        <% end %>
+    </td>
+    <td align="center"><%= user.department.name if user.department %></td>
+    <td align="center"><%= user.duty.name if user.duty %></td>
+    <td align="center">
+        <%= link_to "设置学科", users_set_subject_path(id: user.id) %>
+    	<%= link_to "修改", edit_user_path(user) %>
+        <%= link_to "删除", user_path(user), :method => :delete, data: { confirm: "确定要删除吗" } %>
+    </td>
+</tr>

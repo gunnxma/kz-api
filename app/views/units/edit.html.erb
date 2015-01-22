@@ -1,0 +1,78 @@
+<div class="dqwz">单位信息设置</div>
+<%= render partial: "layouts/notice" %>
+<%= simple_form_for @unit do |f| %>
+<table class="liebiao" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="22%" align="right"><strong>名称：</strong></td>
+    <td width="78%" align="left">
+      <%#= f.text_field :name, :class => "shuru", :size => "30" %>
+      <%= f.input_field :name, class: 'shuru', size: '30' %><%= f.hint '*' %><%= f.error :name %>
+    </td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>类型：</strong></td>
+    <td width="78%" align="left"><%= f.association :unit_type, label: false, include_blank: false %></td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>学段：</strong></td>
+    <td width="78%" align="left"><%= f.association :ranks, label: false, as: :check_boxes %></td>
+  </tr>
+	<tr>
+    <td width="22%" align="right"><strong>所在地区：</strong></td>
+    <td width="78%" align="left">
+      <div class="city-group">
+    	<%= f.select :province, options_for_select(ChinaCity.list, @unit.province), { include_blank: "－省份－" }, :class => "city-select" %>
+      <%= f.select :city, @unit.province ? [ [ChinaCity.get(@unit.city),@unit.city] ] : {}, { include_blank: "－城市－" }, :class => "city-select" %>
+      <%= f.select :district, @unit.district ? [ [ChinaCity.get(@unit.district),@unit.district] ] : {}, { include_blank: "－地区－" }, :class => "city-select" %><%= f.hint '*' %><%= f.error :province %>
+      </div>
+    </td>
+  </tr> 
+  <tr>
+    <td width="22%" align="right"><strong>地址：</strong></td>
+    <td width="78%" align="left"><%= f.text_field :address, :class => "shuru", :size => "30" %><%= f.error :address %></td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>电话：</strong></td>
+    <td width="78%" align="left"><%= f.text_field :phone, :class => "shuru", :size => "30" %><%= f.error :phone %></td>
+  </tr> 
+  
+  <tr>
+    <td colspan="2" align="center">
+      <%= f.submit "保存", :class => "btn" %>
+    </td>
+  </tr>
+</table>
+<% end %>
+
+<script>
+(function() {
+  (function($) {
+    $.fn.china_city = function() {
+      return this.each(function() {
+        var selects;
+        selects = $(this).find('.city-select');
+        return selects.change(function() {
+          var $this, next_selects;
+          $this = $(this);
+          next_selects = selects.slice(selects.index(this) + 1);
+          $("option:gt(0)", next_selects).remove();
+          if (next_selects.first()[0] && $this.val()) {
+            return $.get("/china_city/" + ($(this).val()), function(data) {
+              var option, _i, _len, _results;
+              _results = [];
+              for (_i = 0, _len = data.length; _i < _len; _i++) {
+                option = data[_i];
+                _results.push(next_selects.first()[0].options.add(new Option(option[0], option[1])));
+              }
+              return _results;
+            });
+          }
+        });
+      });
+    };
+    return $(function() {
+      return $('.city-group').china_city();
+    });
+  })(jQuery);
+}).call(this);
+</script>

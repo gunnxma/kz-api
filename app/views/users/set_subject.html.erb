@@ -1,0 +1,40 @@
+<div class="dqwz">设置学科[<%= @user.name %>]</div>
+
+<%= render partial: "layouts/notice" %>
+
+<%= simple_form_for @user_subject, :url => users_save_subject_path do |f| %>
+<%= f.hidden_field :user_id %>
+<table class="liebiao" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="22%" align="right"><strong>学段：</strong></td>
+    <td width="78%" align="left"><%= f.association :rank, label: false %></td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong><%= f.hint '*' %>学科：</strong></td>
+    <td width="78%" align="left"><%= f.association :subject, label: false %></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <%= f.submit "添加", :class => "btn" %>
+    </td>
+  </tr>
+</table> 
+<% end %>
+
+    <div class="tiaojian"></div>
+    <table class="liebiao" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr style="background:#F3F3F3;">
+    <td align="center"><strong>学段</strong></td>
+    <td align="center"><strong>学科</strong></td>
+    <td align="center"><strong>操作</strong></td>
+  </tr>
+  <% @user.user_subjects.each do |user_subject| %>
+  <tr>
+    <td align="center"><%= user_subject.rank.name if user_subject.rank %></td>
+    <td align="center"><%= user_subject.subject.name if user_subject.subject %></td>
+    <td align="center">
+      <%= link_to "删除", users_del_subject_path(id: user_subject.id), :method => :delete, data: { confirm: "确定要删除吗" } %>
+    </td>
+  </tr>
+  <% end %>
+</table>

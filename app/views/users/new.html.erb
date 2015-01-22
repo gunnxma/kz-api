@@ -1,0 +1,13 @@
+<div class="dqwz">添加帐号</div>
+<%= render partial: "layouts/notice" %>
+<%= simple_form_for @user, :html => {:multipart => true} do |f| %>
+<%= render partial: 'form', locals: { f: f } %>
+<% end %>
+
+<script>
+$(function() {
+  $('.datepicker').datepicker({
+    changeYear: true
+  });
+});
+</script>

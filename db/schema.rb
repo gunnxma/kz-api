@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141128023254) do
+ActiveRecord::Schema.define(version: 20141212060504) do
 
   create_table "departments", force: true do |t|
     t.integer  "unit_id"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20141128023254) do
     t.text     "redirect_uri", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "unit_id"
   end
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true
@@ -123,6 +124,13 @@ ActiveRecord::Schema.define(version: 20141128023254) do
     t.datetime "updated_at"
   end
 
+  create_table "unit_ranks", force: true do |t|
+    t.integer  "unit_id"
+    t.integer  "rank_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "unit_types", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -139,6 +147,17 @@ ActiveRecord::Schema.define(version: 20141128023254) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "old_id"
+    t.string   "province"
+    t.string   "city"
+    t.string   "district"
+  end
+
+  create_table "user_klasses", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "klass_id"
+    t.integer  "subject_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "user_subjects", force: true do |t|
@@ -146,6 +165,7 @@ ActiveRecord::Schema.define(version: 20141128023254) do
     t.integer  "subject_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "rank_id"
   end
 
   create_table "users", force: true do |t|
@@ -166,7 +186,6 @@ ActiveRecord::Schema.define(version: 20141128023254) do
     t.string   "logo"
     t.integer  "status"
     t.integer  "old_id"
-    t.integer  "klass_id"
   end
 
 end

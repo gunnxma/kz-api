@@ -1,5 +1,11 @@
+<div style="width:800px; background:#eee; margin:120px auto 40px auto;">
+  <table class="loginPage" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr style="border-bottom:#e2e2e2 solid 1px; font-size:25px;">
+    <td colspan="5">应用详情</td>
+  </tr>
+  <tr><td>
 <div class="page-header">
-  <h1>Application: <%= @application.name %></h1>
+  <h1>应用名称: <%= @application.name %></h1>
 </div>
 
 <div class="row">
@@ -32,4 +38,8 @@
 
     <p><%= render 'delete_form', application: @application, submit_btn_css: 'btn btn-danger' %></p>
   </div>
+</div>
+</td>
+</tr>
+</table>
 </div>

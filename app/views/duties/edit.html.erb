@@ -1,0 +1,5 @@
+<div class="dqwz">修改职务&nbsp;&nbsp;<%= link_to "返回职务管理", duties_path %></div>
+<%= render partial: "layouts/notice" %>
+<%= form_for @duty do |f| %>
+<%= render partial: "form", locals: { f: f} %>		
+<% end %>

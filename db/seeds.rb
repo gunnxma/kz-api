@@ -26,7 +26,7 @@ rank_list.each do |item|
 	Rank.create(:name => item) if Rank.where('name = ?', item).empty?
 end
 
-unit_type_list = ['学校', '教研室']
+unit_type_list = ['学校', '教委']
 unit_type_list.each do |item|
 	UnitType.create(:name => item) if UnitType.where('name = ?', item).empty?
 end
@@ -43,7 +43,10 @@ if Unit.where('name = ?', '淄博教研室').empty?
 	unit = Unit.new
 	unit.name = '淄博教研室'
 	unit.unit_type_id = 2
+	unit.pr
 	unit.region_code = '370300'
+	unit.province = '370000'
+	unit.city = '370300'
 	unit.address = 'zibo'
 	unit.phone = '0533-1111111'
 	unit.old_id = 11
@@ -88,6 +91,7 @@ if User.where('account = ?', 'yyy').empty?
 
 	subject = UserSubject.new
 	subject.user_id = user.id
+	subject.rank_id = 4
 	subject.subject_id = 1
 	subject.save
 end
@@ -110,6 +114,7 @@ if User.where('account = ?', 'kgyw').empty?
 
 	subject = UserSubject.new
 	subject.user_id = user.id
+	subject.rank_id = 4
 	subject.subject_id = 1
 	subject.save
 end
@@ -119,11 +124,23 @@ if Unit.where('name = ?', '宽正校园').empty?
 	unit.name = '宽正校园'
 	unit.unit_type_id = 1
 	unit.region_code = '370300'
+	unit.province = '370000'
+	unit.city = '370300'
 	unit.address = 'zibo'
 	unit.phone = '0533-1111112'
 	unit.old_id = 14
 	unit.status = 0
 	unit.save
+
+	urank = UnitRank.new
+	urank.unit_id = unit_id
+	urank.rank_id = 2
+	urank.save
+
+	urank = UnitRank.new
+	urank.unit_id = unit_id
+	urank.rank_id = 3
+	urank.save
 end
 
 unit = Unit.where('name = ?', '宽正校园').first
@@ -192,6 +209,10 @@ if User.where('account = ?', 'student').empty?
 	user.nation_id = 1
 	user.status = 0
 	user.old_id = 65
-	user.klass_id = klass.id
 	user.save
+
+	userklass = UserKlass.new
+	userklass.user_id = user.id
+	userklass.klass_id = klass.id
+	userklass.save
 end

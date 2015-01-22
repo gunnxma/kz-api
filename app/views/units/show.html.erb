@@ -1,0 +1,51 @@
+<div style="width:800px; background:#eee; margin:120px auto 40px auto;">
+  <% if @unit.users.first.account.include? '@' %>
+    <table class="loginPage" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr style="border-bottom:#e2e2e2 solid 1px; font-size:25px;">
+    <td colspan="2">单位注册成功，请注意查收注册邮箱，点击激活链接以便激活帐号</td>
+    </tr>
+  <tr>
+    <td width="22%" align="right"><strong>单位名称：</strong></td>
+    <td width="78%" align="left">
+      <%= @unit.name %>
+    </td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>单位类型：</strong></td>
+    <td width="78%" align="left"><%= @unit.unit_type.name if @unit.unit_type %></td>
+  </tr>
+  <% @unit.users.where('role_id = 1').each do |user| %>
+    <tr>
+      <td width="22%" align="right"><strong>管理员帐号：</strong></td>
+      <td width="78%" align="left"><%= user.account %></td>
+    </tr> 
+  <% end %>
+  <tr>
+    <td></td>
+    <td>没有收到邮件？ <a href="javascript:reload();">点此重新发送</a></td>
+  </tr>
+</table>
+<% else %>
+  <table class="loginPage" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr style="border-bottom:#e2e2e2 solid 1px; font-size:25px;">
+    <td colspan="2">单位注册成功</td>
+    </tr>
+  <tr>
+    <td width="22%" align="right"><strong>单位名称：</strong></td>
+    <td width="78%" align="left">
+      <%= @unit.name %>
+    </td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>单位类型：</strong></td>
+    <td width="78%" align="left"><%= @unit.unit_type.name if @unit.unit_type %></td>
+  </tr>
+  <% @unit.users.where('role_id = 1').each do |user| %>
+    <tr>
+      <td width="22%" align="right"><strong>管理员帐号：</strong></td>
+      <td width="78%" align="left"><%= user.account %></td>
+    </tr> 
+  <% end %>
+</table>
+<% end %>
+  </div>

@@ -1,0 +1,17 @@
+<div class="dqwz">个人信息设置</div>
+<%= render partial: "layouts/notice" %>
+<%= simple_form_for @user, :html => {:multipart => true} do |f| %>
+  <% if @current_user.role_id == 1 && @current_user.id != @user.id %>
+    <%= render partial: 'form', locals: { f: f } %>
+  <% else %>
+    <%= render partial: 'form_user', locals: { f: f } %>
+  <% end %>
+<% end %>
+
+<script>
+$(function() {
+  $('.datepicker').datepicker({
+    changeYear: true
+  });
+});
+</script>

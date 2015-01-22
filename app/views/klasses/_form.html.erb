@@ -1,0 +1,27 @@
+<table class="liebiao" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="22%" align="right"><strong>入学年份：</strong></td>
+    <td width="78%" align="left">
+      <%= f.input_field :year, class: 'shuru', size: '30' %>年<%= f.hint '*请填写四位年份，如：2015' %><%= f.error :year %>
+    </td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>班级名称：</strong></td>
+    <td width="78%" align="left">
+      <%= f.input_field :name, class: 'shuru', size: '30' %>班<%= f.hint '*' %><%= f.error :name %>
+    </td>
+  </tr>
+	<tr>
+    <td width="22%" align="right"><strong>年级：</strong></td>
+    <td width="78%" align="left">
+      <div class="city-group">
+    	 <%= f.association :grade, label: false %>
+      </div>
+    </td>
+  </tr>   
+  <tr>
+    <td colspan="2" align="center">
+      <%= f.submit "保存", :class => "btn" %>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,7 @@
+<tr>
+    <td align="center"><%= duty.name %></td>
+    <td align="center">
+    	<%= link_to "修改", edit_duty_path(duty) %>
+      <%= link_to "删除", duty_path(duty), :method => :delete, data: { confirm: "确定要删除吗" } %>
+    </td>
+    </tr>

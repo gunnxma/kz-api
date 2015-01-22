@@ -1,0 +1,19 @@
+<div class="dqwz">班级管理&nbsp;&nbsp;<%= link_to "添加班级", new_klass_path %></div>
+<%= search_form_for @q, :url => klasses_path, :method => "get" do |f| %>
+  <%= render partial: "search_form", locals: { f: f} %>
+  <%= f.submit "查询" %>
+<% end %>
+<%= render partial: "layouts/notice" %>
+    <div class="tiaojian"></div>
+    <table class="liebiao" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr style="background:#F3F3F3;">
+    <td align="center"><strong>入学年份</strong></td>
+    <td align="center"><strong>班级</strong></td>
+    <td align="center"><strong>年级</strong></td>
+    <td align="center"><strong>教师数</strong></td>
+    <td align="center"><strong>学生数</strong></td>
+    <td align="center"><strong>操作</strong></td>
+  </tr>
+  <%= render partial: "item", collection: @klasses, as: :klass %>
+</table>
+<%= will_paginate @klasses, renderer: SemanticPagination %>

@@ -1,9 +1,15 @@
 class Oauth::AuthorizeController < ApplicationController
+	layout "nohead"
 	def index
 		if !OauthApplication.where('uid = ?', params[:application_id]).empty?
 			authorize = OauthAccessGrant.new
-			authorize.application_id = OauthApplication.where('uid = ?', params[:application_id]).first.id
-			authorize.redirect_uri = params[:redirect_uri]
+			application = OauthApplication.where('uid = ?', params[:application_id]).first
+			authorize.application_id = application.id
+			if params[:redirect_uri].blank?
+				authorize.redirect_uri = application.redirect_uri
+			else
+				authorize.redirect_uri = params[:redirect_uri]
+			end
 			authorize.resource_owner_id = 0
 			authorize.token = SecureRandom.hex
 			authorize.expires_in = 600

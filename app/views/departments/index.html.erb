@@ -1,0 +1,10 @@
+<div class="dqwz">部门管理&nbsp;&nbsp;<%= link_to "添加部门", new_department_path %></div>
+<%= render partial: "layouts/notice" %>
+    <div class="tiaojian"></div>
+    <table class="liebiao" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr style="background:#F3F3F3;">
+    <td align="center"><strong>名称</strong></td>
+    <td align="center"><strong>操作</strong></td>
+  </tr>
+  <%= render partial: "item", collection: @departments, as: :department %>
+</table>

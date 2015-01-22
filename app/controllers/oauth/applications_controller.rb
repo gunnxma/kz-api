@@ -1,5 +1,6 @@
 class Oauth::ApplicationsController < ApplicationController
     before_filter :set_application, only: [:show, :edit, :update, :destroy]
+    layout "nohead"
 
     def index
       @applications = OauthApplication.all
@@ -43,9 +44,9 @@ class Oauth::ApplicationsController < ApplicationController
 
     def application_params
       if params.respond_to?(:permit)
-        params.require(:oauth_application).permit(:name, :redirect_uri)
+        params.require(:oauth_application).permit(:name, :unit_id, :redirect_uri)
       else
-        params[:oauth_application].slice(:name, :redirect_uri) rescue nil
+        params[:oauth_application].slice(:name, :unit_id, :redirect_uri) rescue nil
       end
     end
 end

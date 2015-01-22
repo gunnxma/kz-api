@@ -1,0 +1,5 @@
+<div class="dqwz">添加班级&nbsp;&nbsp;<%= link_to "返回班级管理", :klasses %></div>
+<%= render partial: "layouts/notice" %>
+<%= simple_form_for @klass do |f| %>
+<%= render partial: 'form', locals: { f: f } %>
+<% end %>

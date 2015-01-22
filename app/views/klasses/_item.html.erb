@@ -1,0 +1,11 @@
+<tr>
+    <td align="center"><%= klass.year %></td>
+    <td align="center"><%= klass.name %></td>
+    <td align="center"><%= klass.grade.name if klass.grade %></td>
+    <td align="center"><%= klass.teachers_count %></td>
+    <td align="center"><%= klass.students_count %></td>
+    <td align="center">
+    	<%= link_to "修改", edit_klass_path(klass) %>
+      <%= link_to "删除", klass_path(klass), :method => :delete, data: { confirm: "确定要删除吗" } %>
+    </td>
+    </tr>

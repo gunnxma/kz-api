@@ -1,0 +1,6 @@
+角色:<%= f.select :role_id_eq, Role.all.collect { |p| [ p.name, p.id ] }, { include_blank: true } %>
+姓名:<%= f.text_field :name_cont %>
+帐号:<%= f.text_field :account_cont %>
+班级:<%= f.select :klasses_id_eq, Klass.where('unit_id = ?', @current_user.unit_id).collect { |p| [ "#{p.year}级#{p.name}班", p.id ] }, { include_blank: true } %>
+部门:<%= f.select :department_id_eq, Department.where('unit_id = ?', @current_user.unit_id).collect { |p| [ p.name, p.id ] }, { include_blank: true } %>
+职务:<%= f.select :duty_id_eq, Duty.where('unit_id = ?', @current_user.unit_id).collect { |p| [ p.name, p.id ] }, { include_blank: true } %>

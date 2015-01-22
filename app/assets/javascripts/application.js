@@ -14,3 +14,6 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+//= require 'china_city/jquery.china_city'
+//= require jquery-ui/datepicker
+//= require jquery-ui/datepicker-zh-CN

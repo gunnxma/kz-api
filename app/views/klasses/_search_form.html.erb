@@ -1,0 +1,2 @@
+入学年份:<%= f.text_field :year_eq %>
+年级:<%= f.select :grade_id_eq, Grade.all.collect { |p| [ p.name, p.id ] }, { include_blank: true } %>

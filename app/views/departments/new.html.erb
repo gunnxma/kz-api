@@ -1,0 +1,5 @@
+<div class="dqwz">添加部门&nbsp;&nbsp;<%= link_to "返回部门管理", departments_path %></div>
+<%= render partial: "layouts/notice" %>
+<%= form_for @department do |f| %>
+<%= render partial: "form", locals: { f: f} %>		
+<% end %>

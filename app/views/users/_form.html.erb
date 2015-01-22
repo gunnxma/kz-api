@@ -1,0 +1,98 @@
+<table class="liebiao" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="22%" align="right"><strong>身份：</strong></td>
+    <td width="78%" align="left">
+      <% if @current_user.unit.unit_type_id == 1 %>
+      <%= f.select :role_id, Role.where('id > 2').collect { |p| [ p.name, p.id ] }, { include_blank: true }, { onclick: "role_change();", onchange: "role_change();" } %>
+      <% else %>
+      <%= f.select :role_id, Role.where('id = 2').collect { |p| [ p.name, p.id ] }, { include_blank: true }, { onclick: "role_change();", onchange: "role_change();" } %>
+      <% end %>
+      <%= f.hint '*' %><%= f.error :role_id %></td>
+  </tr> 
+  <tr>
+    <td width="22%" align="right"><strong>帐号：</strong></td>
+    <td width="78%" align="left">
+      <%= f.text_field :account, :class => "shuru", :size => "30" %><%= f.hint '*帐号必须为邮箱或手机号' %><%= f.error :account %>
+    </td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>姓名：</strong></td>
+    <td width="78%" align="left">
+      <%= f.input_field :name, class: 'shuru', size: '30' %><%= f.error :name %>
+    </td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>头像：</strong></td>
+    <td width="78%" align="left">
+    	<%= image_tag(@user.logo.thumb.url) if @user.logo? %>
+      <%= f.file_field :logo %>
+    	<%= f.hidden_field :logo_cache %>
+    </td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>密码：</strong></td>
+    <td width="78%" align="left"><%= password_field_tag 'pwd', nil, class: 'shuru', size: '30' %>
+      <% if @edit %>
+      <%= f.hint '不修改密码请留空' %>
+      <% else %>
+      <%= f.hint '*密码长度不能少于6位' %>
+      <% end %>
+      <%= f.error :pwd %></td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>确认密码：</strong></td>
+    <td width="78%" align="left"><%= password_field_tag 'pwd_confirmation', nil, class: 'shuru', size: '30' %>
+      <% if !@edit %>
+      <%= f.hint '*' %>
+      <% end %>
+    </td>
+  </tr>  
+	<tr>
+    <td width="22%" align="right"><strong>性别：</strong></td>
+    <td width="78%" align="left"><%= f.collection_radio_buttons :gender, [['男', '男'] ,['女', '女']], :first, :last %></td>
+  </tr> 
+	<tr>
+    <td width="22%" align="right"><strong>出生日期：</strong></td>
+    <td width="78%" align="left"><%= f.text_field :birthday, :class => "datepicker", :readonly => true %></td>
+  </tr> 
+	<tr>
+    <td width="22%" align="right"><strong>民族：</strong></td>
+    <td width="78%" align="left"><%= f.association :nation, label: false %></td>
+  </tr> 
+	<tr id="department">
+    <td width="22%" align="right"><strong>所属部门：</strong></td>
+    <td width="78%" align="left"><%= f.select :department_id, Department.where('unit_id = ?', @current_user.unit_id).collect { |p| [ p.name, p.id ] }, { include_blank: true } %></td>    
+  </tr> 
+  <tr id="duty">
+  	<td width="22%" align="right"><strong>所属职务：</strong></td>
+    <td width="78%" align="left"><%= f.select :duty_id, Duty.where('unit_id = ?', @current_user.unit_id).collect { |p| [ p.name, p.id ] }, { include_blank: true } %></td>
+  </tr> 
+  <tr>
+    <td width="22%" align="right"><strong>EMAIL：</strong></td>
+    <td width="78%" align="left"><%= f.text_field :email, :class => "shuru", :size => "30" %><%= f.error :email %></td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>手机：</strong></td>
+    <td width="78%" align="left"><%= f.text_field :mobile, :class => "shuru", :size => "30" %><%= f.error :mobile %></td>
+  </tr>   
+  <tr>
+    <td colspan="2" align="center">
+      <%= f.submit "保存", :class => "btn" %>
+    </td>
+  </tr>
+</table>
+<script>
+  $(function(){
+　　role_change();
+  }); 
+
+  function role_change(){
+    if($('#user_role_id').val() == 4 || $('#user_role_id').val() == 5){
+      $("#department").css('display', 'none');
+      $("#duty").css('display', 'none');
+    } else {
+      $("#department").css('display', '');
+      $("#duty").css('display', '');      
+    }
+  }
+</script>

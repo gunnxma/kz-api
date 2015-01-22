@@ -1,0 +1,60 @@
+<div style="width:1000px; margin:120px auto 40px auto; font-size:14px; color:#555; line-height:2em;">
+    <div style="font-size:20px; color:#1759a1; border-bottom:#CCCCCC solid 1px; font-weight:bold; padding-bottom:10px; margin-bottom:15px;">感谢您准备在我们的平台进行注册！</div>
+
+<strong style="color:#f25b00; font-size:15px;">“教育云”是一款教育信息化产品。</strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据教育部2011-2020年教育中长期发展刚要要求，2020前要全面实现教育信息化。<br />
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是，您知道吗？<strong style="color:#f25b00; font-size:15px;">教育信息化可以分成三个类型：管理信息化、资源信息化、应用信息化。</strong>应用信息化是其中最有价值的信息化应用形态。<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;它的设计有两个重点：一是对教育行业的深刻理解，能够提出能为教育行业认可的教学和教研应用专业解决方案，二是为教研教学应用时动辄几万甚至几十万人的视音频大并发处理提供可靠技术保障。<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;正是上述两个原因，您看到的市面上的大部分教育信息化产品大多涉足管理信息化和资源信息，只有很少的商家开发部分应用产品。而<strong style="color:#f25b00; font-size:15px;">我们的“教育云”涵盖了基础教育的全部应用。</strong><br />
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由于行业认知和技术难关，不可能有很多公司和个人开发类似产品，但是行业需求巨大，为了加快市场部署，让“教育云”为更多的教委、学校服务，我们在国内首次提出了功能自定制云教育应用方案，用户在这个网站上可根据自己单位的需求自行开通服务。<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+欢迎您完成注册！
+
+  </div>
+
+<div style="width:1000px; background:#eee; margin:0px auto 40px auto;">
+<%= render partial: "layouts/notice" %>
+<%= simple_form_for @unit do |f| %>
+    <table class="loginPage" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr style="border-bottom:#e2e2e2 solid 1px; font-size:25px;">
+    <td colspan="2">注册</td>
+    </tr>
+  <tr>
+    <td width="22%" align="right"><strong>单位名称：</strong></td>
+    <td width="78%" align="left">
+      <%= f.input_field :name, class: 'shuru', size: '30' %><%= f.hint '*' %><%= f.error :name %>
+    </td>
+  </tr>
+  <tr>
+    <td width="22%" align="right"><strong>单位类型：</strong></td>
+    <td width="78%" align="left"><%= f.association :unit_type, label: false, include_blank: false %></td>
+  </tr>
+  <%= f.fields_for :users do |b| %>
+    <tr>
+      <td width="22%" align="right"><strong>管理员帐号：</strong></td>
+      <td width="78%" align="left"><%= b.text_field :account, :class => "shuru", :size => "30" %><%= f.hint '*请输入邮箱或手机号做为帐号' %>&nbsp;&nbsp;<%= b.error :account %></td>
+    </tr> 
+    <tr>
+      <td width="22%" align="right"><strong>管理员密码：</strong></td>
+      <td width="78%" align="left"><%= password_field_tag 'pwd', nil, :class => "shuru", :size => "30" %><%= f.hint '*密码长度不能少于6位' %>&nbsp;&nbsp;<%= b.error :pwd %></td>
+    </tr>
+    <tr>
+      <td width="22%" align="right"><strong>确认密码：</strong></td>
+      <td width="78%" align="left"><%= password_field_tag 'pwd_confirmation', nil, :class => "shuru", :size => "30" %><%= f.hint '*' %></td>
+    </tr>
+  <% end %>
+  <tr>
+    <td align="center" colspan="2">
+      <%= f.submit "保存", :class => "btn" %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td><!--<a class="link" href="###">忘记密码？</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="link" href="zc.html">注册新账号</a>--></td>
+  </tr>
+</table>
+<% end %>
+
+  </div>
