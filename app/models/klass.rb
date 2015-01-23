@@ -3,6 +3,7 @@ class Klass < ActiveRecord::Base
 	has_many :users, :through => :user_klasses
   belongs_to :unit
   belongs_to :grade
+  belongs_to :rank
 
   validates :name,
 						:presence => { :message => "班级名称不能为空" },
