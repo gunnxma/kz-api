@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150123033149) do
+ActiveRecord::Schema.define(version: 20150123054207) do
 
   create_table "departments", force: true do |t|
     t.integer  "unit_id"
@@ -166,6 +166,7 @@ ActiveRecord::Schema.define(version: 20150123033149) do
     t.integer  "subject_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "is_charge"
   end
 
   create_table "user_subjects", force: true do |t|
