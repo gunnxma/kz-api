@@ -9,6 +9,10 @@ class User < ActiveRecord::Base
   has_many :subjects, :through => :user_subjects
   has_many :user_klasses, :dependent => :destroy
   has_many :klasses, :through => :user_klasses
+  has_many :parent_children, :foreign_key => :parent_id, :class_name => 'ParentChild'
+  has_many :children, :through => :parent_children
+  has_many :child_parents, :foreign_key => :child_id, :class_name => 'ParentChild'
+  has_many :parents, :through => :child_parents
 
   validates :role_id,
             :presence => { :message => "身份不能为空" }            

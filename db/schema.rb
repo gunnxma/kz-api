@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150123023555) do
+ActiveRecord::Schema.define(version: 20150123033149) do
 
   create_table "departments", force: true do |t|
     t.integer  "unit_id"
@@ -89,6 +89,13 @@ ActiveRecord::Schema.define(version: 20150123023555) do
   end
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true
+
+  create_table "parent_children", force: true do |t|
+    t.integer  "parent_id"
+    t.integer  "child_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "ranks", force: true do |t|
     t.string   "name"
