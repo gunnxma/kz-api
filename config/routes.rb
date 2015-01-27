@@ -66,6 +66,7 @@ Rails.application.routes.draw do
     resources :grades
     resources :subjects
     resources :departments
+    post 'im/login'
   end
 
   get 'index/login'
@@ -87,6 +88,8 @@ Rails.application.routes.draw do
   post 'users/save_subject'
   resources :users
   resources :klasses
+
+  get 'webim', to: 'webim#index'
 
   mount ChinaCity::Engine => '/china_city'
 end
