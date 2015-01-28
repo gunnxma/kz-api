@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>WebIM-DEMO</title>
+<title>WebIM</title>
 <script type="text/javascript" src="<%= asset_path('jquery-1.11.1.js') %>"></script>
 <script type="text/javascript" src="<%= asset_path('strophe-custom-1.0.0.js') %>"></script>
 <script type="text/javascript" src="<%= asset_path('json2.js') %>"></script>
@@ -13,7 +13,6 @@
 <script type="text/javascript">
 	var apiURL = null;
 	var curUserId = null;
-	var curUserName = null;
 	var curChatUserId = null;
 	var conn = null;
 	var curRoomId = null;
@@ -32,6 +31,8 @@
 	var appkey = "kuanzheng#kuanzheng";
 	var time = 0;
 	var kz_api_url = "/api/im/"
+	var curUserName = null;
+	var user_id = null;
 
 	window.URL = window.URL || window.webkitURL || window.mozURL
 			|| window.msURL;
@@ -274,6 +275,33 @@
 		//从连接中获取到当前的登录人注册帐号名
 		curUserId = conn.context.userId;
 		//获取当前登录人的联系人列表
+
+		$.get(kz_api_url+"contacts.json/?user_id="+user_id,
+		  function(data){
+		  	hiddenWaitLoginedUI();
+				showChatUI();
+				var curroster;
+				$("#accordionDiv").html('');
+				for(var i=0; i<data.length;i++){
+					var collapsed = "";
+					var in_str = " in";
+					if(i>0){
+						collapsed = " collapsed"
+						in_str="";
+					}
+					var group_html = '<div class="accordion-group">						<div class="accordion-heading">							<a id="accordion'+i+'" class="accordion-toggle'+collapsed+'"								data-toggle="collapse" data-parent="#accordionDiv"								href="#collapse'+i+'">'+data[i].name+' </a>						</div>						<div id="collapse'+i+'" class="accordion-body collapse'+in_str+'">							<div class="accordion-inner" id="contractlist'+i+'">								<ul id="contractlist'+i+'UL" class="chat03_content_ul"></ul>							</div>						</div>					</div>'
+					$("#accordionDiv").append(group_html);
+					buildContactDiv("contractlist"+i, data[i].contacts);
+				}
+				if (data[0].contacts.length > 0) {
+					curroster = data[0].contacts[0];
+					if (curroster)
+						setCurrentContact(curroster.ease_userid);//页面处理将第一个联系人作为当前聊天div
+				}
+				conn.setPresence();//设置用户上线状态，必须调用
+		  }, "json"
+		);
+		/*
 		conn.getRoster({
 			success : function(roster) {
 				// 页面处理
@@ -316,6 +344,7 @@
 				});
 			}
 		});
+		*/
 
 	};
 
@@ -488,7 +517,11 @@
 		}
 	  $.post(kz_api_url+"login", { "account": user, "pwd": pass },
 		  function(data){
-		  	curUserName = data.name;
+		  	user_id = data.id;
+		  	curUserName = data.name;	
+		  	if(data.logo){		  		  	
+		  		$("#current_user_logo").attr("src", data.logo);
+		  	}
 		    hiddenLoginUI();
 				showWaitLoginedUI();
 				//根据用户名密码登录系统
@@ -525,20 +558,21 @@
 
 	//构造联系人列表
 	var buildContactDiv = function(contactlistDivId, roster) {
-		var uielem = document.getElementById("contactlistUL");
+		//var uielem = document.getElementById("contactlistUL");		
+		var uielem = document.getElementById(contactlistDivId+"UL");		
 		var cache = {};
 		for (i = 0; i < roster.length; i++) {
 			if (!(roster[i].subscription == 'both' || roster[i].subscription == 'from')) {
 				continue;
 			}
-			var jid = roster[i].jid;
-			var userName = jid.substring(jid.indexOf("_") + 1).split("@")[0];
+			//var jid = roster[i].jid;
+			var userName = roster[i].name;
 			if (userName in cache) {
 				continue;
 			}
 			cache[userName] = true;
 			var lielem = $('<li>').attr({
-				'id' : userName,
+				'id' : roster[i].ease_userid,
 				'class' : 'offline',
 				'className' : 'offline',
 				'type' : 'chat',
@@ -546,10 +580,15 @@
 			}).click(function() {
 				chooseContactDivClick(this);
 			});
-			$('<img>').attr("src", "<%= asset_path('img/head/contact_normal.png') %>").appendTo(
+			var img_url = "<%= asset_path('img/head/contact_normal.png') %>";
+			if(roster[i].logo){
+				img_url = roster[i].logo;
+			}
+			$('<img>').attr("src", img_url).attr("width", 40).attr("height", 40).appendTo(
 					lielem);
 			$('<span>').html(userName).appendTo(lielem);
-			$('#contactlistUL').append(lielem);
+			//$('#contactlistUL').append(lielem);
+			$('#'+contactlistDivId+'UL').append(lielem);
 		}
 		var contactlist = document.getElementById(contactlistDivId);
 		var children = contactlist.children;
@@ -638,7 +677,8 @@
 			curRoomId = $(contactLi).attr('roomid');
 			$("#roomMemberImg").css('display', 'block');
 		} else {
-			dispalyTitle = "与" + chatUserId + "聊天中";
+			var chatUserName = $("#"+chatUserId+" span").html();
+			dispalyTitle = "与" + chatUserName + "聊天中";
 			$("#roomMemberImg").css('display', 'none');
 		}
 
@@ -1171,6 +1211,18 @@
 	};
 	//显示聊天记录的统一处理方法
 	var appendMsg = function(who, contact, message, chattype) {
+		var who_name = who;
+		if($("#"+who+" span").html()){
+			who_name = $("#"+who+" span").html();
+		}
+		if(who == curUserId){
+			who_name = curUserName;
+		}
+		var contact_name = contact;
+		if($("#"+contact+" span").html() != ''){
+			contact_name = $("#"+contact+" span").html();
+		}
+
 		var contactUL = document.getElementById("contactlistUL");
 		var contactDivId = contact;
 		if (chattype && chattype == 'groupchat') {
@@ -1189,7 +1241,7 @@
 		} else {
 			localMsg = message.data;
 		}
-		var headstr = [ "<p1>" + who + "   <span></span>" + "   </p1>",
+		var headstr = [ "<p1>" + who_name + "   <span></span>" + "   </p1>",
 				"<p2>" + getLoacalTimeString() + "<b></b><br/></p2>" ];
 		var header = $(headstr.join(''))
 
@@ -1596,7 +1648,7 @@
 	<div class="content" id="content" style="display: none">
 		<div class="leftcontact" id="leftcontact">
 			<div id="headerimg" class="leftheader">
-				<span> <img src="<%= asset_path('img/head/header2.jpg') %>" alt="logo"
+				<span> <img id="current_user_logo" src="<%= asset_path('img/head/header2.jpg') %>" alt="logo"
 					class="img-circle" width="60px" height="60px"
 					style="margin-top: -40px; margin-left: 20px" /></span> <span
 					id="login_user" class="login_user_title"> <a
@@ -1642,7 +1694,19 @@
 					</div>
 					<div class="accordion-group">
 						<div class="accordion-heading">
-							<a id="accordion2" class="accordion-toggle collapsed"
+							<a id="accordion5" class="accordion-toggle collapsed"
+								data-toggle="collapse" data-parent="#accordionDiv"
+								href="#collapse2">我的好友aaa </a>
+						</div>
+						<div id="collapse2" class="accordion-body collapse">
+							<div class="accordion-inner" id="contractlistaa">
+								<ul id="contactlistUL" class="chat03_content_ul"></ul>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-group">
+						<div class="accordion-heading">
+							<a id="accordion3" class="accordion-toggle collapsed"
 								data-toggle="collapse" data-parent="#accordionDiv"
 								href="#collapseTwo">我的群组</a>
 						</div>
@@ -1654,7 +1718,7 @@
 					</div>
 					<div class="accordion-group">
 						<div class="accordion-heading">
-							<a id="accordion3" class="accordion-toggle collapsed"
+							<a id="accordion4" class="accordion-toggle collapsed"
 								data-toggle="collapse" data-parent="#accordionDiv"
 								href="#collapseThree">陌生人</a>
 						</div>

@@ -107,7 +107,11 @@ class UsersController < ApplicationController
     if current_user.role_id == 1
       params.require(:user).permit(:role_id, :account, :name, :logo, :logo_cache, :gender, :birthday, :department_id, :duty_id, :nation_id, :email, :mobile)
     else
-      params.require(:user).permit(:name, :logo, :logo_cache, :gender, :birthday, :nation_id, :email, :mobile)
+      if current_user.account_check
+        params.require(:user).permit(:name, :logo, :logo_cache, :gender, :birthday, :nation_id, :email, :mobile)
+      else
+        params.require(:user).permit(:account, :name, :logo, :logo_cache, :gender, :birthday, :nation_id, :email, :mobile)
+      end
     end
   end
 

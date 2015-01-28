@@ -39,6 +39,22 @@ class User < ActiveRecord::Base
   	end
   end
 
+  def account_check
+    result = false
+    if /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i.match(account)
+      result = true
+    end
+
+    if /^1[3|4|5|8]\d{9}$/.match(account)
+      result = true
+    end
+    result
+  end
+
+  def ease_userid
+    old_id ? (unit.unit_type_id == 1 ? "sd_edu_#{old_id}" : "sd_jys_#{old_id}") : "sd_new_#{id}"
+  end
+
   private
 
   def account_validation

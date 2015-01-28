@@ -3,7 +3,11 @@
     <td width="22%" align="right"><strong>帐号：</strong></td>
     <td width="78%" align="left">
       <%#= f.text_field :name, :class => "shuru", :size => "30" %>
+      <% if @user.account_check %>
       <%= @user.account %>
+      <% else %>
+      <%= f.text_field :account, :class => "shuru", :size => "30" %><%= f.hint '*帐号必须为邮箱或手机号' %><%= f.error :account %>
+      <% end %>
     </td>
   </tr>
   <tr>

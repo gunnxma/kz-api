@@ -67,6 +67,7 @@ Rails.application.routes.draw do
     resources :subjects
     resources :departments
     post 'im/login'
+    get 'im/contacts'
   end
 
   get 'index/login'
