@@ -57,7 +57,7 @@ class Api::ImController < ApplicationController
 				group = { name: "#{klass.year}级#{klass.name}班-教师", contacts: []}
 				klass.users.where('role_id = ?', 3).each do |u|
 					group[:contacts] << { ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
-				end
+				end				
 				@groups << group
 
 				#添加学生组
@@ -94,6 +94,10 @@ class Api::ImController < ApplicationController
 
 			#下级学校教师
 			#todo
+		end
+
+		@groups.each do |group|
+			group[:name] = "#{group[:name]}(#{group[:contacts].count}人)"
 		end
 	end
 end
