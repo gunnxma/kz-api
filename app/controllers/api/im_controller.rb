@@ -20,6 +20,15 @@ class Api::ImController < ApplicationController
 				@groups << group
 			end
 
+			#添加同年级教师组
+			user.klasses.select(:year).uniq.each do |klass|
+				group = { name: "#{klass.year}级-教师", contacts: [] }
+				User.joins(:klasses).where('klasses.year = ? and klasses.unit_id = ? and users.role_id = 3 and users.id <> ?', klass.year, user.unit_id, user.id).each do |u|
+					group[:contacts] << { ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+				end
+				@groups << group
+			end
+
 			#添加学生组
 			user.klasses.each do |klass|
 				group = { name: "#{klass.year}级#{klass.name}班-学生", contacts: []}
@@ -28,11 +37,21 @@ class Api::ImController < ApplicationController
 				end
 				@groups << group
 			end
+
+			#添加家长组
+			user.klasses.each do |klass|
+				group = { name: "#{klass.year}级#{klass.name}班-家长", contacts: []}
+				klass.users.where('role_id = ?', 4).each do |u|
+					u.parents.each do |j|
+						group[:contacts] << { ease_userid: j.ease_userid, name: "#{u.name}家长-#{j.name}", logo: j.logo.thumb.url, subscription: 'both'}
+					end
+				end
+				@groups << group
+			end
 		end
 
 		#学生联系人
-		if user.role_id == 4
-			
+		if user.role_id == 4			
 			user.klasses.each do |klass|
 				#添加教师组
 				group = { name: "#{klass.year}级#{klass.name}班-教师", contacts: []}
@@ -48,6 +67,19 @@ class Api::ImController < ApplicationController
 				end
 				@groups << group
 			end
+		end
+
+		#教研员联系人
+		if user.role_id == 2
+			#本单位联系人
+			group = { name: "本单位教研员", contacts: []}
+			user.unit.users.all.each do |u|				
+				group[:contacts] << { ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'} if u.id != user.id
+			end
+			@groups << group
+
+			#下级学校教师
+			#todo
 		end
 	end
 end
