@@ -69,6 +69,20 @@ class Api::ImController < ApplicationController
 			end
 		end
 
+		#家长联系人
+		if user.role_id == 5
+			user.children.each do |c|
+				c.klasses.each do |klass|
+					#添加教师组
+					group = { name: "#{klass.year}级#{klass.name}班-教师", contacts: []}
+					klass.users.where('role_id = ?', 3).each do |u|
+						group[:contacts] << { ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+					end
+					@groups << group
+				end
+			end
+		end
+
 		#教研员联系人
 		if user.role_id == 2
 			#本单位联系人
