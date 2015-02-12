@@ -10,7 +10,9 @@
     <td align="center"><%= user.department.name if user.department %></td>
     <td align="center"><%= user.duty.name if user.duty %></td>
     <td align="center">
+        <% if [2,3].include? user.role_id %>
         <%= link_to "设置学科", users_set_subject_path(id: user.id) %>
+        <% end %>
     	<%= link_to "修改", edit_user_path(user) %>
         <%= link_to "删除", user_path(user), :method => :delete, data: { confirm: "确定要删除吗" } %>
     </td>

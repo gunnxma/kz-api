@@ -1,4 +1,4 @@
-<div class="dqwz">帐号管理&nbsp;&nbsp;<%= link_to "添加帐号", new_user_path %></div>
+<div class="dqwz">帐号管理&nbsp;&nbsp;<%= link_to "添加帐号", new_user_path %>&nbsp;&nbsp;<%= link_to "导入教师帐号", users_imp_teacher_path %>&nbsp;&nbsp;<%= link_to "导入学生帐号", users_imp_student_path %></div>
 <%= search_form_for @q, :url => users_path, :method => "get" do |f| %>
   <%= render partial: "search_form", locals: { f: f} %>
   <%= f.submit "查询" %>

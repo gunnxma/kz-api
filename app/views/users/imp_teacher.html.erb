@@ -1,0 +1,18 @@
+<div class="dqwz">帐号管理&nbsp;&nbsp;<%= link_to "添加帐号", new_user_path %>&nbsp;&nbsp;<%= link_to "导入教师帐号", users_imp_teacher_path %>&nbsp;&nbsp;<%= link_to "导入学生帐号", users_imp_student_path %></div>
+<%= render partial: "layouts/notice" %>
+<%= form_tag({action: :imp_teacher_save}, multipart: true) do %>
+    <table class="liebiao" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="22%" align="right"><strong>下载Excel模板：</strong></td>
+    <td width="78%" align="left"><a href="/uploads/template/teacher.xls">下载</a></td>     
+  </tr> 
+  <tr>
+    <td width="22%" align="right"><strong>选择导入文件：</strong></td>
+    <td width="78%" align="left"><input type="file" name="imp_file" /></td>
+  </tr>
+  <tr>
+    <td width="22%" align="right">&nbsp;</td>
+    <td width="78%" align="left"><input type="submit" value="导入" /></td>
+  </tr>
+</table>
+<% end %>

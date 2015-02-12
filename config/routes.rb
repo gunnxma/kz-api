@@ -77,6 +77,7 @@ Rails.application.routes.draw do
   get 'index/logout'
   get 'index/forget'
   post 'index/send_pwd'
+  get 'index/test_imp'
 
   get 'units/active'
 
@@ -87,6 +88,10 @@ Rails.application.routes.draw do
   get 'users/set_subject'
   delete 'users/del_subject'
   post 'users/save_subject'
+  get 'users/imp_teacher'
+  post 'users/imp_teacher_save'
+  get 'users/imp_student'
+  post 'users/imp_student_save'
   resources :users
   resources :klasses
 

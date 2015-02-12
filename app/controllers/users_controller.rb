@@ -101,6 +101,91 @@ class UsersController < ApplicationController
     redirect_to users_set_subject_path(id: user_id)
   end
 
+  def imp_teacher
+
+  end
+
+  def imp_teacher_save
+    uploaded_io = params[:imp_file]
+    filename = Rails.root.join('public', 'uploads', uploaded_io.original_filename)
+    File.open(filename, 'wb') do |file|
+      file.write(uploaded_io.read)
+    end
+
+    ImpTeacher.import(filename)
+    ImpTeacher.all.each do |teacher|
+      user = User.new   
+      user.unit_id = current_user.unit_id
+      user.account = teacher['帐号']
+      user.pwd = teacher['密码']
+      user.name = teacher['姓名']
+      user.role_id = 3
+      user.status = 0
+      if user.save
+        u_subject = Subject.where('name = ?', teacher['学科']).first
+        if u_subject
+          subject = UserSubject.new
+          subject.user_id = user.id
+          subject.subject_id = u_subject.id
+          subject.save
+        end
+      end
+    end
+
+    redirect_to :users
+  end
+
+  def imp_student
+
+  end
+
+  def imp_student_save
+    uploaded_io = params[:imp_file]
+    filename = Rails.root.join('public', 'uploads', uploaded_io.original_filename)
+    File.open(filename, 'wb') do |file|
+      file.write(uploaded_io.read)
+    end
+
+    ImpStudent.import(filename)
+    ImpStudent.all.each do |student|
+      user = User.new   
+      user.unit_id = current_user.unit_id
+      user.account = student['帐号']
+      user.pwd = student['密码']
+      user.name = student['姓名']
+      user.role_id = 4
+      user.status = 0
+
+      if user.save
+        parent = User.new
+        parent.unit_id = current_user.unit_id
+        parent.account = student['家长帐号']
+        parent.pwd = student['家长密码']
+        parent.name = student['家长姓名']
+        parent.role_id = 5
+        parent.status = 0
+        parent.save
+
+        parent_child = ParentChild.new
+        parent_child.parent_id = parent.id
+        parent_child.child_id = user.id
+        parent_child.save
+
+        u_class = Klass.where('unit_id = ? and name = ? and year = ?', user.unit_id, student['班级'].split('.').first, student['入学年份']).first
+        if u_class
+          userklass = UserKlass.new
+          userklass.user_id = user.id
+          userklass.klass_id = u_class.id
+          userklass.save
+        end   
+      else
+        logger.debug user.errors.messages
+      end   
+    end
+
+    redirect_to :users
+  end
+
   private
 
   def user_params

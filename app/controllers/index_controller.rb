@@ -1,7 +1,7 @@
 class IndexController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_filter :check_login, :only => [:index, :upload_form, :upload]
-  layout "nohead", :only => [ :login, :checklogin, :forget, :send_pwd ]
+  layout "nohead", :only => [ :login, :checklogin, :forget, :send_pwd, :test_imp ]
 
   def index
     redirect_to edit_user_path(current_user)
@@ -58,6 +58,14 @@ class IndexController < ApplicationController
     else
       @notice = "没有找到对应的账号"
     end
+  end
+
+  def test_imp
+    ImpUser.import(Rails.root.join('uploads', 'imp_user.xls'))
+    imp_users = ImpUser.all
+    @name = imp_users.first['姓名']
+    logger.debug 'user count:'
+    logger.debug @name
   end
 
   private
