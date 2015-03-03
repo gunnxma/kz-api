@@ -68,6 +68,7 @@ Rails.application.routes.draw do
     resources :departments
     post 'im/login'
     get 'im/contacts'
+    resources :units
   end
 
   get 'index/login'
