@@ -10,6 +10,9 @@
     <td align="center"><%= user.department.name if user.department %></td>
     <td align="center"><%= user.duty.name if user.duty %></td>
     <td align="center">
+        <% if [3,4].include? user.role_id %>
+        <%= link_to "设置班级", users_set_klass_path(id: user.id) %>
+        <% end %>
         <% if [2,3].include? user.role_id %>
         <%= link_to "设置学科", users_set_subject_path(id: user.id) %>
         <% end %>

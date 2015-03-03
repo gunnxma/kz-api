@@ -1,0 +1,46 @@
+<div class="dqwz">设置班级[<%= @user.name %>]</div>
+
+<%= render partial: "layouts/notice" %>
+
+<%= simple_form_for @user_klass, :url => users_save_klass_path do |f| %>
+<%= f.hidden_field :user_id %>
+<table class="liebiao" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <% if @user.role_id == 3 %>
+  <tr>
+    <td width="22%" align="right"><strong><%= f.hint '*' %>学科：</strong></td>
+    <td width="78%" align="left"><%= f.association :subject, label: false %></td>
+  </tr>
+  <% end %>
+  <tr>
+    <td width="22%" align="right"><strong><%= f.hint '*' %>班级：</strong></td>
+    <td width="78%" align="left"><%= f.select :klass_id, Klass.where('unit_id = ?', @user.unit_id).collect { |p| [ "#{p.year}级#{p.name}班", p.id ] }, { include_blank: true } %></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <%= f.submit "添加", :class => "btn" %>
+    </td>
+  </tr>
+</table> 
+<% end %>
+
+    <div class="tiaojian"></div>
+    <table class="liebiao" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr style="background:#F3F3F3;">
+    <% if @user.role_id == 3 %>
+    <td align="center"><strong>学科</strong></td>
+    <% end %>
+    <td align="center"><strong>班级</strong></td>
+    <td align="center"><strong>操作</strong></td>
+  </tr>
+  <% @user.user_klasses.each do |user_klass| %>
+  <tr>
+    <% if @user.role_id == 3 %>
+    <td align="center"><%= user_klass.subject.name if user_klass.subject %></td>
+    <% end %>
+    <td align="center"><%= "#{user_klass.klass.year}级#{user_klass.klass.name}班" if user_klass.klass %></td>
+    <td align="center">
+      <%= link_to "删除", users_del_klass_path(id: user_klass.id), :method => :delete, data: { confirm: "确定要删除吗" } %>
+    </td>
+  </tr>
+  <% end %>
+</table>

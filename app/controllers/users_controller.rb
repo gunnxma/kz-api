@@ -101,6 +101,33 @@ class UsersController < ApplicationController
     redirect_to users_set_subject_path(id: user_id)
   end
 
+  def set_klass
+    user_id = params[:id]
+    @user = User.find(user_id)
+    @user_klass = UserKlass.new
+    @user_klass.user_id = user_id
+  end
+
+  def save_klass
+    @user_klass = UserKlass.new(user_klass_params)
+    if @user_klass.save
+      flash[:notice] = '班级添加成功'
+      redirect_to users_set_klass_path(id: @user_klass.user_id)
+    else
+      @user = User.find(@user_klass.user_id)
+      flash[:notice] = '班级添加失败'
+      render 'set_klass'
+    end
+  end
+
+  def del_klass
+    user_klass = UserKlass.find(params[:id])
+    user_id = user_klass.user_id
+    user_klass.destroy
+    flash[:notice] = '班级删除成功'
+    redirect_to users_set_klass_path(id: user_id)
+  end
+
   def imp_teacher
 
   end
@@ -202,5 +229,9 @@ class UsersController < ApplicationController
 
   def user_subject_params
     params.require(:user_subject).permit(:user_id, :rank_id, :subject_id)
+  end
+
+  def user_klass_params
+    params.require(:user_klass).permit(:user_id, :klass_id, :subject_id)
   end
 end

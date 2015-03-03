@@ -5,6 +5,11 @@ class UnitsController < ApplicationController
 	def new
 		@unit = Unit.new
 		@unit.users.build
+		@from = params[:from]
+
+		unless @from.blank?
+			render 'new_admin', :layout => 'empty'
+		end
 	end
 
 	def create
@@ -19,16 +24,20 @@ class UnitsController < ApplicationController
 	    else
 	    	user.pwd = params[:pwd]
 	    end
+	    	
 	    if user.account.include? '@'
-      	user.status = -1
-      else
-      	user.status = 0
+	    	user.status = -1
+	    else
+	    	user.status = 0
       end
+      
+      user.status = 0 unless params['reg_from'].blank?
+
       user.role_id = 1
     end
 
     if @unit.save
-      redirect_to unit_path(@unit)
+      redirect_to unit_path(id: @unit.id, reg_from: params['reg_from'])
     else
     	flash[:notice] = "注册单位失败，请检查信息是否填写正确"
       render "new"
@@ -54,6 +63,10 @@ class UnitsController < ApplicationController
 		@unit = Unit.find(params[:id])
 		if @unit.users.first.status == -1 then
 			RegMailer.confirm(@unit.users.first.account, @unit).deliver
+		end
+
+		unless params['reg_from'].blank?
+			render 'show', :layout => 'empty'
 		end
 	end
 
