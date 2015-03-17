@@ -26,8 +26,10 @@ class Api::ImController < ApplicationController
 				#User.joins(:klasses).where('klasses.year = ? and klasses.unit_id = ? and users.role_id = 3 and users.id <> ?', klass.year, user.unit_id, user.id).each do |u|
 				#	group[:contacts] << { ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
 				#end
-				klass.users.where('role_id = ?', 3).each do |u|
-					group[:contacts] << { ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+				Klass.where('year = ? and unit_id = ?', klass.year, user.unit_id).each do |k|
+					k.users.where('role_id = ?', 3).each do |u|
+						group[:contacts] << { ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+					end
 				end
 				@groups << group
 			end
