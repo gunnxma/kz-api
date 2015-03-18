@@ -15,7 +15,7 @@ class Api::ImController < ApplicationController
 			user.subjects.each do |subject|
 				group = { name: "#{subject.name}-教师", contacts: [] }
 				subject.users.where('unit_id = ? and role_id = ? and users.id <> ?', user.unit_id, user.role_id, user.id).each do |u|
-					group[:contacts] << { ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+					group[:contacts] << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
 				end
 				@groups << group
 			end
@@ -28,7 +28,7 @@ class Api::ImController < ApplicationController
 				#end
 				Klass.where('year = ? and unit_id = ?', klass.year, user.unit_id).each do |k|
 					k.users.where('role_id = ? and users.id <> ?', 3, user.id).each do |u|
-						tt = { ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+						tt = { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
 						group[:contacts] << tt unless group[:contacts].include?(tt)						
 					end
 				end
@@ -39,7 +39,7 @@ class Api::ImController < ApplicationController
 			user.klasses.each do |klass|
 				group = { name: "#{klass.year}级#{klass.name}班-学生", contacts: []}
 				klass.users.where('role_id = ?', 4).each do |u|
-					group[:contacts] << { ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+					group[:contacts] << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
 				end
 				@groups << group
 			end
@@ -49,7 +49,7 @@ class Api::ImController < ApplicationController
 				group = { name: "#{klass.year}级#{klass.name}班-家长", contacts: []}
 				klass.users.where('role_id = ?', 4).each do |u|
 					u.parents.each do |j|
-						group[:contacts] << { ease_userid: j.ease_userid, name: "#{u.name}家长-#{j.name}", logo: j.logo.thumb.url, subscription: 'both'}
+						group[:contacts] << { userid: u.id, ease_userid: j.ease_userid, name: "#{u.name}家长-#{j.name}", logo: j.logo.thumb.url, subscription: 'both'}
 					end
 				end
 				@groups << group
@@ -62,14 +62,14 @@ class Api::ImController < ApplicationController
 				#添加教师组
 				group = { name: "#{klass.year}级#{klass.name}班-教师", contacts: []}
 				klass.users.where('role_id = ?', 3).each do |u|
-					group[:contacts] << { ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+					group[:contacts] << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
 				end				
 				@groups << group
 
 				#添加学生组
 				group = { name: "#{klass.year}级#{klass.name}班-学生", contacts: []}
 				klass.users.where('role_id = ? and users.id <> ?', 4, user.id).each do |u|
-					group[:contacts] << { ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+					group[:contacts] << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
 				end
 				@groups << group
 			end
@@ -82,7 +82,7 @@ class Api::ImController < ApplicationController
 					#添加教师组
 					group = { name: "#{klass.year}级#{klass.name}班-教师", contacts: []}
 					klass.users.where('role_id = ?', 3).each do |u|
-						group[:contacts] << { ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+						group[:contacts] << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
 					end
 					@groups << group
 				end
@@ -94,7 +94,7 @@ class Api::ImController < ApplicationController
 			#本单位联系人
 			group = { name: "本单位教研员", contacts: []}
 			user.unit.users.all.each do |u|				
-				group[:contacts] << { ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'} if u.id != user.id
+				group[:contacts] << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'} if u.id != user.id
 			end
 			@groups << group
 
