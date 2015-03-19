@@ -29,6 +29,7 @@ if @user
 	json.duty_name @user.duty ? @user.duty.name : nil
 	json.logo @user.logo
 	json.old_id @user.old_id
+	json.agent_id @user.agent_id
 else
 	json.result 'not found'
 end

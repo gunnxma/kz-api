@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150123054207) do
+ActiveRecord::Schema.define(version: 20150319090708) do
 
   create_table "departments", force: true do |t|
     t.integer  "unit_id"
@@ -195,6 +195,7 @@ ActiveRecord::Schema.define(version: 20150123054207) do
     t.string   "logo"
     t.integer  "status"
     t.integer  "old_id"
+    t.integer  "agent_id"
   end
 
 end

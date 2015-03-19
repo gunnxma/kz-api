@@ -20,6 +20,6 @@ class Api::UnitsController < ApplicationController
 	private
 
 	def unit_params
-		params.require(:unit).permit(:name, :province, :city, :district, :address, :phone, :unit_type_id, rank_ids: [], users_attributes: [:name, :account, :pwd, :email, :mobile])
+		params.require(:unit).permit(:name, :province, :city, :district, :address, :phone, :unit_type_id, rank_ids: [], users_attributes: [:name, :account, :pwd, :email, :mobile, :agent_id])
 	end
 end
