@@ -17,6 +17,7 @@
     <td width="78%" align="left"><%= f.association :unit_type, label: false, include_blank: false %></td>
   </tr>
   <%= f.fields_for :users do |b| %>
+    <%= b.hidden_field :agent_id %>
     <tr>
       <td width="22%" align="right"><strong>管理员帐号：</strong></td>
       <td width="78%" align="left"><%= b.text_field :account, :class => "shuru", :size => "30" %><%= f.hint '*请输入邮箱或手机号做为帐号' %>&nbsp;&nbsp;<%= b.error :account %></td>

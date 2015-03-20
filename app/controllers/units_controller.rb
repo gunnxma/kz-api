@@ -4,7 +4,11 @@ class UnitsController < ApplicationController
 
 	def new
 		@unit = Unit.new
-		@unit.users.build
+		if params[:agent_id].blank?
+			@unit.users.build
+		else
+			@unit.users.build(agent_id: params[:agent_id])
+		end
 		@from = params[:from]
 
 		unless @from.blank?
@@ -86,6 +90,6 @@ class UnitsController < ApplicationController
 	private
 
 	def unit_params
-		params.require(:unit).permit(:name, :province, :city, :district, :address, :phone, :unit_type_id, rank_ids: [], users_attributes: [:name, :account, :pwd, :email, :mobile])
+		params.require(:unit).permit(:name, :province, :city, :district, :address, :phone, :unit_type_id, rank_ids: [], users_attributes: [:name, :account, :pwd, :email, :mobile, :agent_id])
 	end
 end
