@@ -61,6 +61,10 @@ Rails.application.routes.draw do
     resources :token
   end
   namespace :api do
+    get 'users/logout'
+    get 'users/get_zj'
+    get 'users/get_teacher'
+    get 'users/get_user'
     resources :users
     post 'kindeditor/upload'
     resources :grades
@@ -68,6 +72,7 @@ Rails.application.routes.draw do
     resources :departments
     post 'im/login'
     get 'im/contacts'
+    get 'units/sub_units_by_type'
     resources :units
   end
 

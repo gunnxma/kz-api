@@ -29,7 +29,7 @@ class Api::ImController < ApplicationController
 				Klass.where('year = ? and unit_id = ?', klass.year, user.unit_id).each do |k|
 					k.users.where('role_id = ? and users.id <> ?', 3, user.id).each do |u|
 						tt = { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
-						group[:contacts] << tt unless group[:contacts].include?(tt)						
+						group[:contacts] << tt unless group[:contacts].include?(tt)
 					end
 				end
 				@groups << group

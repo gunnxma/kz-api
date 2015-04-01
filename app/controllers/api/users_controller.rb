@@ -12,4 +12,45 @@ class Api::UsersController < ApplicationController
 	def show
 		@user if check_authorize
 	end
+
+	def logout
+		if check_authorize
+			if UserStatu.where('user_id = ?', @user.id).blank?
+				UserStatu.create(user_id: @user.id, status: 1)
+			else
+				UserStatu.where('user_id = ?', @user.id).update_all(status: 1)
+			end
+			render :plain => 'ok'
+			return
+		end
+		render :plain => 'error'
+	end
+
+	def get_zj
+		@zjs = []
+		if check_authorize
+			if @user.unit.unit_type_id == 2
+				@zjs = User.where('unit_id = ? and role_id = ?', @user.unit.id, 6)
+			end
+		end
+		@zjs
+	end
+
+	def get_teacher
+		if check_authorize
+			school_name = params[:school_name]
+			name = params[:name]
+			subject_id = params[:subject_id]
+			@users = User.where('status = 0 and role_id = 3')
+			@users = @users.where(unit_id: Unit.where('name like ?', "%#{school_name}%").pluck(:id)) unless school_name.blank?
+			@users = @users.where('name like ?', "%#{name}%") unless name.blank?
+			@users = @users.where(id: UserSubject.where(subject_id: subject_id).pluck(:user_id)) unless subject_id.blank?
+		end
+	end
+
+	def get_user
+		if check_authorize
+			@user = User.find(params[:user_id])
+		end
+	end
 end

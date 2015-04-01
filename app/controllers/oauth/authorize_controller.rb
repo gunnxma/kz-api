@@ -18,8 +18,14 @@ class Oauth::AuthorizeController < ApplicationController
 			if authorize.save
 				if !cookies[:user_id] || cookies[:user_id].empty?
 					redirect_to index_login_path(:id => authorize.id)
-				else
-					redirect_to :action => :response_code, :authorize_id => authorize.id
+				else					
+					if !UserStatu.where('user_id = ? and status = 1', cookies[:user_id]).blank?
+						cookies.delete(:user_id)
+						UserStatu.where('user_id = ? and status = 1', cookies[:user_id]).update_all(status: 0)
+						redirect_to index_login_path(:id => authorize.id)
+					else
+						redirect_to :action => :response_code, :authorize_id => authorize.id
+					end
 				end
 			end
 		end

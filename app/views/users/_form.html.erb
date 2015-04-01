@@ -5,7 +5,7 @@
       <% if @current_user.unit.unit_type_id == 1 %>
       <%= f.select :role_id, Role.where('id > 2').collect { |p| [ p.name, p.id ] }, { include_blank: true }, { onclick: "role_change();", onchange: "role_change();" } %>
       <% else %>
-      <%= f.select :role_id, Role.where('id = 2').collect { |p| [ p.name, p.id ] }, { include_blank: true }, { onclick: "role_change();", onchange: "role_change();" } %>
+      <%= f.select :role_id, Role.where(id: [2, 6]).collect { |p| [ p.name, p.id ] }, { include_blank: true }, { onclick: "role_change();", onchange: "role_change();" } %>
       <% end %>
       <%= f.hint '*' %><%= f.error :role_id %></td>
   </tr> 

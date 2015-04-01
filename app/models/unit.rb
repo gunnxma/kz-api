@@ -19,10 +19,10 @@ class Unit < ActiveRecord::Base
 						:length => {:maximum => 254, :message => "地址长度不能超过254个字" }
 	validates_presence_of :status
 
-	def region_code
+	def region_code_all		
 		code = ''
-		code = self.province unless self.province.empty?
-		code = self.city unless self.city.empty?
-		code = self.district unless self.district.empty?
+		code = self.province unless self.province.blank?
+		code = self.city unless self.city.blank?
+		code = self.district unless self.district.blank?
 	end
 end

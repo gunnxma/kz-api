@@ -27,7 +27,7 @@ if @user
 	json.department_id @user.department_id
 	json.duty_id @user.duty_id
 	json.duty_name @user.duty ? @user.duty.name : nil
-	json.logo @user.logo_url
+	json.logo @user.logo
 	json.old_id @user.old_id
 	json.agent_id @user.agent_id
 else
