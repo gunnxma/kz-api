@@ -14,10 +14,12 @@ class Group < ActiveRecord::Base
 		end
 
 		users = []
-		contacts.each do |user|
-			if UserGroup.where('user_id = ? and group_id = ?', user[:userid], group.id).blank?
-				UserGroup.create(user_id: user[:userid], group_id: group.id)
-				users << user[:ease_userid]
+		if UserGroup.where('user_id = ? and group_id = ?', user[:userid], group.id).count != contacts.count
+			contacts.each do |user|
+				if UserGroup.where('user_id = ? and group_id = ?', user[:userid], group.id).blank?
+					UserGroup.create(user_id: user[:userid], group_id: group.id)
+					users << user[:ease_userid]
+				end
 			end
 		end
 		Ease.add_group_users(group.ease_groupid, users)
