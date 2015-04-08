@@ -14,7 +14,7 @@ class Group < ActiveRecord::Base
 		end
 
 		users = []
-		if UserGroup.where('user_id = ? and group_id = ?', user[:userid], group.id).count != contacts.count
+		if UserGroup.where('group_id = ?', group.id).count != contacts.count
 			contacts.each do |user|
 				if UserGroup.where('user_id = ? and group_id = ?', user[:userid], group.id).blank?
 					UserGroup.create(user_id: user[:userid], group_id: group.id)
