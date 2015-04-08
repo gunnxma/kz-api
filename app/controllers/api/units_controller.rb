@@ -44,9 +44,9 @@ class Api::UnitsController < ApplicationController
   end
 
   def show
-    if check_authorize
+    #if check_authorize
       @unit = Unit.find(params[:id]) unless Unit.where('id = ?', params[:id]).blank?
-    end
+    #end
   end
 
 	private

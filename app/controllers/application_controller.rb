@@ -4,6 +4,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_filter :set_user
 
+  helper_method :current_user
+
+
   WillPaginate.per_page = 20
 
   def check_authorize

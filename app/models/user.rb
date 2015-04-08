@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   has_many :children, :through => :parent_children
   has_many :child_parents, :foreign_key => :child_id, :class_name => 'ParentChild'
   has_many :parents, :through => :child_parents
+  has_many :user_groups, :dependent => :destroy
 
   validates :role_id,
             :presence => { :message => "身份不能为空" }            

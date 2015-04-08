@@ -41,16 +41,19 @@ class Api::UsersController < ApplicationController
 			school_name = params[:school_name]
 			name = params[:name]
 			subject_id = params[:subject_id]
+			school_id = params[:school_id]
+
 			@users = User.where('status = 0 and role_id = 3')
 			@users = @users.where(unit_id: Unit.where('name like ?', "%#{school_name}%").pluck(:id)) unless school_name.blank?
 			@users = @users.where('name like ?', "%#{name}%") unless name.blank?
 			@users = @users.where(id: UserSubject.where(subject_id: subject_id).pluck(:user_id)) unless subject_id.blank?
+			@users = @users.where(unit_id: school_id) unless school_id.blank?
 		end
 	end
 
 	def get_user
-		if check_authorize
-			@user = User.find(params[:user_id])
-		end
+		#if check_authorize
+			@user = User.find(params[:user_id]) unless User.where('id = ?', params[:user_id]).blank?
+		#end
 	end
 end

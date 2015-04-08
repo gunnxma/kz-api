@@ -18,6 +18,10 @@ class Api::ImController < ApplicationController
 					group[:contacts] << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
 				end
 				@groups << group
+
+				g_group = group[:contacts].clone
+				g_group << { userid: user.id, ease_userid: user.ease_userid, name: user.name, subscription: 'both' }
+				Group.add(group[:name], "subject_teacher_#{user.unit_id}_#{subject.id}", g_group)
 			end
 
 			#添加同年级教师组
@@ -33,6 +37,10 @@ class Api::ImController < ApplicationController
 					end
 				end
 				@groups << group
+
+				g_group = group[:contacts].clone
+				g_group << { userid: user.id, ease_userid: user.ease_userid, name: user.name, subscription: 'both' }
+				Group.add(group[:name], "grade_teacher_#{user.unit_id}_#{klass.year}", g_group)
 			end
 
 			#添加学生组
@@ -42,6 +50,12 @@ class Api::ImController < ApplicationController
 					group[:contacts] << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
 				end
 				@groups << group
+
+				g_group = group[:contacts].clone
+				klass.users.where('role_id = ?', 3).each do |u|
+					g_group << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+				end
+				Group.add(group[:name], "student_#{user.unit_id}_#{klass.id}", g_group)
 			end
 
 			#添加家长组
@@ -53,6 +67,12 @@ class Api::ImController < ApplicationController
 					end
 				end
 				@groups << group
+
+				g_group = group[:contacts].clone
+				klass.users.where('role_id = ?', 3).each do |u|
+					g_group << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+				end
+				Group.add(group[:name], "home_#{user.unit_id}_#{klass.id}", g_group)
 			end
 		end
 
@@ -66,12 +86,25 @@ class Api::ImController < ApplicationController
 				end				
 				@groups << group
 
+				g_group = group[:contacts].clone
+				klass.users.where('role_id = ?', 4).each do |u|
+					g_group << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+				end
+				Group.add(group[:name], "student_#{user.unit_id}_#{klass.id}", g_group)
+
 				#添加学生组
 				group = { name: "#{klass.year}级#{klass.name}班-学生", contacts: []}
 				klass.users.where('role_id = ? and users.id <> ?', 4, user.id).each do |u|
 					group[:contacts] << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
 				end
 				@groups << group
+
+				g_group = group[:contacts].clone
+				klass.users.where('role_id = ?', 3).each do |u|
+					g_group << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+				end
+				g_group << { userid: user.id, ease_userid: user.ease_userid }
+				Group.add(group[:name], "student_#{user.unit_id}_#{klass.id}", g_group)
 			end
 		end
 
@@ -85,6 +118,14 @@ class Api::ImController < ApplicationController
 						group[:contacts] << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
 					end
 					@groups << group
+
+					g_group = group[:contacts].clone
+					klass.users.where('role_id = ?', 4).each do |u|
+						u.parents.each do |j|
+							g_group << { userid: u.id, ease_userid: j.ease_userid, name: "#{u.name}家长-#{j.name}", logo: j.logo.thumb.url, subscription: 'both'}
+						end
+					end
+					Group.add(group[:name], "home_#{user.unit_id}_#{klass.id}", g_group)
 				end
 			end
 		end
@@ -97,6 +138,10 @@ class Api::ImController < ApplicationController
 				group[:contacts] << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'} if u.id != user.id
 			end
 			@groups << group
+
+			g_group = group[:contacts].clone
+			g_group << { userid: user.id, ease_userid: user.ease_userid }
+			Group.add(group[:name], "jyy_#{user.unit_id}", g_group)
 
 			#下级学校教师
 			#todo

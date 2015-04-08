@@ -298,6 +298,29 @@
 					if (curroster)
 						setCurrentContact(curroster.ease_userid);//页面处理将第一个联系人作为当前聊天div
 				}
+
+
+
+				//获取当前登录人的群组列表
+				conn.listRooms({
+					success : function(rooms) {
+						var g_html = '<div class="accordion-group">						<div class="accordion-heading">							<a id="accordion3" class="accordion-toggle collapsed"								data-toggle="collapse" data-parent="#accordionDiv"								href="#collapseTwo">我的群组</a>						</div>						<div id="collapseTwo" class="accordion-body collapse">							<div class="accordion-inner" id="contracgrouplist">								<ul id="contactgrouplistUL" class="chat03_content_ul"></ul>							</div>						</div>					</div>'
+						$("#accordionDiv").append(g_html);
+						
+						if (rooms && rooms.length > 0) {
+							buildListRoomDiv("contracgrouplist", rooms);//群组列表页面处理
+							if (curChatUserId == null) {
+								setCurrentContact(groupFlagMark
+										+ rooms[0].roomId);
+								$('#accordion2').click();
+							}
+						}
+					},
+					error : function(e) {
+
+					}
+				});
+
 				conn.setPresence();//设置用户上线状态，必须调用
 		  }, "json"
 		);
