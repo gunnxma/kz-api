@@ -48,7 +48,7 @@ gem 'carrierwave'
 
 gem "mini_magick"
 
-gem 'ransack', github: 'activerecord-hackery/ransack', branch: 'rails-4.1'
+gem 'ransack', github: 'activerecord-hackery/ransack'
 
 gem 'will_paginate', '~> 3.0'
 

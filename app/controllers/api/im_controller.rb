@@ -55,7 +55,7 @@ class Api::ImController < ApplicationController
 				klass.users.where('role_id = ?', 3).each do |u|
 					g_group << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
 				end
-				Group.add(group[:name], "student_#{user.unit_id}_#{klass.id}", g_group)
+				#Group.add(group[:name], "student_#{user.unit_id}_#{klass.id}", g_group)
 			end
 
 			#添加家长组
@@ -72,7 +72,7 @@ class Api::ImController < ApplicationController
 				klass.users.where('role_id = ?', 3).each do |u|
 					g_group << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
 				end
-				Group.add(group[:name], "home_#{user.unit_id}_#{klass.id}", g_group)
+				#Group.add(group[:name], "home_#{user.unit_id}_#{klass.id}", g_group)
 			end
 		end
 
@@ -90,7 +90,7 @@ class Api::ImController < ApplicationController
 				klass.users.where('role_id = ?', 4).each do |u|
 					g_group << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
 				end
-				Group.add(group[:name], "student_#{user.unit_id}_#{klass.id}", g_group)
+				#Group.add(group[:name], "student_#{user.unit_id}_#{klass.id}", g_group)
 
 				#添加学生组
 				group = { name: "#{klass.year}级#{klass.name}班-学生", contacts: []}
