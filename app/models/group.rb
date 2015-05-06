@@ -25,6 +25,6 @@ class Group < ActiveRecord::Base
 				end
 			end
 		end
-		Ease.add_group_users(group.ease_groupid, users)
+		Ease.add_group_users(group.ease_groupid, users - [contacts.first[:ease_userid]])
 	end
 end

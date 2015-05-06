@@ -1,8 +1,8 @@
-#require 'httparty'
+require 'httparty'
 
 class Ease
 	EASE_API_URL = "https://a1.easemob.com/kuanzheng/kuanzheng/"
-	#include HTTParty
+	include HTTParty
 
 	def self.token
 		token = EaseToken.first
@@ -23,21 +23,23 @@ class Ease
 	end
 
 	def self.add_group(name, desc, owner)
-		#response = HTTParty.post(EASE_API_URL + "chatgroups", 
-		#	headers: { "Authorization" => "Bearer #{self.token}" },
-		#	body: { "groupname" => name, "desc" => desc, "public" => true, "approval" => true, "owner" => owner, "maxusers" => 1000 }.to_json
-		#)
-		#response["data"]["groupid"]
-		response = `curl -X POST '#{EASE_API_URL}chatgroups' -H 'Authorization: Bearer #{self.token}' -d '{"groupname":"#{name}","desc":"#{desc}","public":true,"approval":true,"owner":"#{owner}","maxusers":1000}'`
-		#response["data"]["groupid"]
-		desc
+		response = HTTParty.post(EASE_API_URL + "chatgroups", 
+			headers: { "Authorization" => "Bearer #{self.token}" },
+			body: { "groupname" => name, "desc" => desc.to_s, "public" => true, "approval" => true, "owner" => owner, "maxusers" => 1000 }.to_json
+		)
+		response["data"]["groupid"]
 	end
 
 	def self.add_group_users(groupid, users)
-		#response = HTTParty.post(EASE_API_URL + "chatgroups/#{groupid}/users", 
-		#	headers: { "Authorization" => "Bearer #{self.token}" },
-		#	body: { "usernames" => users }.to_json
-		#)
-		response = `curl -X POST '#{EASE_API_URL}chatgroups/#{groupid}/users' -H 'Authorization: Bearer #{self.token}' -d '{"usernames":"#{users}"}'`
+		response = HTTParty.post(EASE_API_URL + "chatgroups/#{groupid}/users", 
+			headers: { "Authorization" => "Bearer #{self.token}" },
+			body: { "usernames" => users }.to_json
+		)
+		#puts "==============================================="
+		#puts "ease_groupid:#{groupid},users count:#{users.count}"
+		#puts "body:#{{ "usernames" => users }.to_json}"
+		#puts "response code:#{response.code}"
+		#puts "response body:#{response.body}"
+		#puts "==============================================="
 	end
 end

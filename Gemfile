@@ -60,4 +60,4 @@ gem 'mysql2'
 
 gem 'importex'
 
-gem 'httparty'
+gem 'httparty', '~> 0.13.0'
