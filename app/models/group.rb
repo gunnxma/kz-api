@@ -1,4 +1,5 @@
 class Group < ActiveRecord::Base
+
 	has_many :user_groups
 
 	def self.add(name, mark, contacts)
@@ -8,7 +9,9 @@ class Group < ActiveRecord::Base
 			if group.blank?
 				group = Group.new
 				group.name, group.mark = name, mark
+				group.save
 			end
+
 			group.ease_groupid = Ease.add_group(group.name, group.id, contacts.first[:ease_userid])
 			group.save
 		end
