@@ -100,9 +100,9 @@ class Api::ImController < ApplicationController
 				@groups << group
 
 				g_group = group[:contacts].clone
-				klass.users.where('role_id = ?', 3).each do |u|
-					g_group << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
-				end
+				#klass.users.where('role_id = ?', 3).each do |u|
+				#	g_group << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+				#end
 				g_group << { userid: user.id, ease_userid: user.ease_userid }
 				Group.add(group[:name], "student_#{user.unit_id}_#{klass.id}", g_group)
 			end
@@ -119,7 +119,8 @@ class Api::ImController < ApplicationController
 					end
 					@groups << group
 
-					g_group = group[:contacts].clone
+					#g_group = group[:contacts].clone
+					g_group = []
 					klass.users.where('role_id = ?', 4).each do |u|
 						u.parents.each do |j|
 							g_group << { userid: u.id, ease_userid: j.ease_userid, name: "#{u.name}家长-#{j.name}", logo: j.logo.thumb.url, subscription: 'both'}
