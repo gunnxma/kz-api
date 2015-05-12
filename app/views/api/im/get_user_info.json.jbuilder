@@ -16,7 +16,11 @@ if @user
 	json.logo @user.logo_url
 	json.old_id @user.old_id
 	json.ease_account @user.ease_userid
-	json.ease_pwd Digest::MD5.hexdigest("#{@user.ease_userid}kz2015")
+	if @user.klasses.blank?
+		json.bj ""
+	else
+		json.bj "#{@user.klasses.first.year}级#{@user.klasses.first.name}班"
+	end
 else
 	json.result 'not found'
 end
