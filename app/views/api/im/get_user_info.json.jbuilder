@@ -16,11 +16,7 @@ if @user
 	json.logo @user.logo_url
 	json.old_id @user.old_id
 	json.ease_account @user.ease_userid
-	if @user.klasses.blank?
-		json.bj ""
-	else
-		json.bj "#{@user.klasses.first.year}级#{@user.klasses.first.name}班"
-	end
+	json.bj @user.klasses
 else
 	json.result 'not found'
 end
