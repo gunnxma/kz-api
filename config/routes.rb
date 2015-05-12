@@ -72,6 +72,8 @@ Rails.application.routes.draw do
     resources :departments
     post 'im/login'
     get 'im/contacts'
+    get 'im/get_group_member'
+    get 'im/get_user_info'
     get 'units/sub_units_by_type'
     resources :units
   end

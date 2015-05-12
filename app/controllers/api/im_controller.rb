@@ -152,4 +152,48 @@ class Api::ImController < ApplicationController
 			group[:name] = "#{group[:name]}(#{group[:contacts].count}人)"
 		end
 	end
+
+	def get_group_member
+		ease_groupid = params[:ease_groupid]
+		@users = Group.where('ease_groupid = ?', ease_groupid).first.user_groups
+	end
+
+	def get_user_info
+		ease_id = params[:ease_id]
+		user_id = params[:user_id]
+		account = params[:account]
+
+		if !user_id.blank?
+			@user = User.where('id = ?', user_id).first
+			return
+		end
+
+		if !account.blank?
+			@user = User.where('account = ?', account).first
+			return
+		end
+
+		if !ease_id.blank?
+			if ease_id[0,6] == "sd_new"
+				@user = User.where('id = ?', ease_id[7,ease_id.length-7]).first
+				return
+			end
+			if ease_id[0,6] == "sd_edu"
+				User.where('old_id = ?', ease_id[7,ease_id.length-7]).each do |u|
+					if u.unit.unit_type_id == 1
+						@user = u
+						return
+					end
+				end
+			end
+			if ease_id[0,6] == "sd_jys"
+				User.where('old_id = ?', ease_id[7,ease_id.length-7]).each do |u|
+					if u.unit.unit_type_id == 2
+						@user = u
+						return
+					end
+				end
+			end
+		end
+	end
 end
