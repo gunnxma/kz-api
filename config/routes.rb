@@ -74,6 +74,7 @@ Rails.application.routes.draw do
     get 'im/contacts'
     get 'im/get_group_member'
     get 'im/get_user_info'
+    get 'im/get_users_by_ease_ids'
     get 'units/sub_units_by_type'
     resources :units
   end

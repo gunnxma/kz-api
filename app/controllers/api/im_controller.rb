@@ -196,4 +196,34 @@ class Api::ImController < ApplicationController
 			end
 		end
 	end
+
+	def get_users_by_ease_ids
+		ease_ids = params[:ease_ids]
+		@users = []
+
+		ease_ids.split(',').each do |ease_id|
+			if !ease_id.blank?
+				if ease_id[0,6] == "sd_new"
+					@users << User.where('id = ?', ease_id[7,ease_id.length-7]).first
+					return
+				end
+				if ease_id[0,6] == "sd_edu"
+					User.where('old_id = ?', ease_id[7,ease_id.length-7]).each do |u|
+						if u.unit.unit_type_id == 1
+							@users << u
+							return
+						end
+					end
+				end
+				if ease_id[0,6] == "sd_jys"
+					User.where('old_id = ?', ease_id[7,ease_id.length-7]).each do |u|
+						if u.unit.unit_type_id == 2
+							@users << u
+							return
+						end
+					end
+				end
+			end
+		end
+	end
 end
