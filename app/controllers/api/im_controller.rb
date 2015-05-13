@@ -155,7 +155,12 @@ class Api::ImController < ApplicationController
 
 	def get_group_member
 		ease_groupid = params[:ease_groupid]
-		@users = Group.where('ease_groupid = ?', ease_groupid).first.user_groups
+		group = Group.where('ease_groupid = ?', ease_groupid).first
+		if group
+			@users = Group.where('ease_groupid = ?', ease_groupid).first.user_groups
+		else
+			@users = []
+		end
 	end
 
 	def get_user_info
