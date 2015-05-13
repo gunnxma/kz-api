@@ -204,22 +204,20 @@ class Api::ImController < ApplicationController
 		ease_ids.split(',').each do |ease_id|
 			if !ease_id.blank?
 				if ease_id[0,6] == "sd_new"
-					@users << User.where('id = ?', ease_id[7,ease_id.length-7]).first
-					return
+					u = User.where('id = ?', ease_id[7,ease_id.length-7]).first
+					@users << u unless @users.include? u
 				end
 				if ease_id[0,6] == "sd_edu"
 					User.where('old_id = ?', ease_id[7,ease_id.length-7]).each do |u|
 						if u.unit.unit_type_id == 1
-							@users << u
-							return
+							@users << u	unless @users.include? u		
 						end
 					end
 				end
 				if ease_id[0,6] == "sd_jys"
 					User.where('old_id = ?', ease_id[7,ease_id.length-7]).each do |u|
 						if u.unit.unit_type_id == 2
-							@users << u
-							return
+							@users << u unless @users.include? u
 						end
 					end
 				end
