@@ -9,6 +9,12 @@ class Api::ImController < ApplicationController
 		user = User.find(params[:user_id])
 		@groups = []
 
+		group = { name: "我的好友", contacts: [] }
+		user.friends.each do |u|
+			group[:contacts] << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+		end
+		@groups << group
+
 		#教师联系人
 		if user.role_id == 3
 			#添加同学科教师组
@@ -179,26 +185,7 @@ class Api::ImController < ApplicationController
 		end
 
 		if !ease_id.blank?
-			if ease_id[0,6] == "sd_new"
-				@user = User.where('id = ?', ease_id[7,ease_id.length-7]).first
-				return
-			end
-			if ease_id[0,6] == "sd_edu"
-				User.where('old_id = ?', ease_id[7,ease_id.length-7]).each do |u|
-					if u.unit.unit_type_id == 1
-						@user = u
-						return
-					end
-				end
-			end
-			if ease_id[0,6] == "sd_jys"
-				User.where('old_id = ?', ease_id[7,ease_id.length-7]).each do |u|
-					if u.unit.unit_type_id == 2
-						@user = u
-						return
-					end
-				end
-			end
+			@user = get_user_by_ease_id(ease_id)
 		end
 	end
 
@@ -208,23 +195,75 @@ class Api::ImController < ApplicationController
 
 		ease_ids.split(',').each do |ease_id|
 			if !ease_id.blank?
-				if ease_id[0,6] == "sd_new"
-					u = User.where('id = ?', ease_id[7,ease_id.length-7]).first
-					@users << u unless @users.include? u
+				u = get_user_by_ease_id(ease_id)
+				@users << u unless @users.include? u
+			end
+		end
+	end
+
+	#def add_group
+	#	name = params[:name]
+	#	user_id = params[:user_id]
+	#	ease_id = params[:ease_id]
+#
+	#	if !user_id.blank?
+	#		user = User.where('id = ?', user_id).first
+	#	end
+	#	if !ease_id.blank?
+	#		user = get_user_by_ease_id(ease_id)
+	#	end
+	#	contacts = []
+	#	contacts << { userid: user.id, ease_userid: user.ease_userid, name: user.name, logo: user.logo.thumb.url, subscription: 'both'} unless #user.blank?
+	#	Group.add(name, "group_#{user.id}_#{name}", contacts)
+	#	render plain: 'ok'
+	#end
+
+	def add_group
+		ease_groupid = params[:ease_groupid]
+		name = params[:name]
+		ease_ids = params[:ease_ids]
+
+		if Group.where('ease_groupid = ?', ease_groupid).blank?
+			Group.create(:ease_groupid => ease_groupid, :name => name, :mark => "usergroup_#{ease_groupid}")
+		end
+		group = Group.where('ease_groupid = ?', ease_groupid).first
+		ease_ids.split(',').each do |ease_id|
+			user = get_user_by_ease_id(ease_id)
+			if user
+				UserGroup.create(user_id: user.id, group_id: group.id) if UserGroup.where('user_id = ? and group_id = ?', user.id, group.id).blank?
+			end
+		end
+		render plain: 'ok'
+	end
+
+	def add_friend
+		user_id = params[:user_id]
+		friend_id = params[:friend_id]
+		puts "user_id:#{params[:user_id]}"
+		if UserFriend.where('user_id = ? and friend_id = ?', user_id, friend_id).blank?
+			UserFriend.create(:user_id => user_id, :friend_id => friend_id)
+		end
+		render plain: 'ok'
+	end
+
+	private
+
+	def get_user_by_ease_id(ease_id)
+		if ease_id[0,6] == "sd_new"
+			u = User.where('id = ?', ease_id[7,ease_id.length-7]).first
+			return u
+		end
+		if ease_id[0,6] == "sd_edu"
+			User.where('old_id = ?', ease_id[7,ease_id.length-7]).each do |u|
+				if u.unit.unit_type_id == 1
+					return u
 				end
-				if ease_id[0,6] == "sd_edu"
-					User.where('old_id = ?', ease_id[7,ease_id.length-7]).each do |u|
-						if u.unit.unit_type_id == 1
-							@users << u	unless @users.include? u		
-						end
-					end
-				end
-				if ease_id[0,6] == "sd_jys"
-					User.where('old_id = ?', ease_id[7,ease_id.length-7]).each do |u|
-						if u.unit.unit_type_id == 2
-							@users << u unless @users.include? u
-						end
-					end
+			end
+		end
+		if ease_id[0,6] == "sd_jys"
+			User.where('old_id = ?', ease_id[7,ease_id.length-7]).each do |u|
+				if u.unit.unit_type_id == 2
+					return u
 				end
 			end
 		end
