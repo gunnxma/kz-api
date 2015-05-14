@@ -77,6 +77,8 @@ Rails.application.routes.draw do
     get 'im/get_users_by_ease_ids'
     post 'im/add_group'
     post 'im/add_friend'
+    post 'im/group_remove_member'
+    post 'im/remove_friend'
     get 'units/sub_units_by_type'
     resources :units
   end

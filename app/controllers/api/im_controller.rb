@@ -236,6 +236,22 @@ class Api::ImController < ApplicationController
 		render plain: 'ok'
 	end
 
+	def group_remove_member
+		ease_groupid = params[:ease_groupid]
+		ease_ids = params[:ease_ids]
+		
+		group = Group.where('ease_groupid = ?', ease_groupid).first
+		if group
+			ease_ids.split(',').each do |ease_id|
+				user = get_user_by_ease_id(ease_id)
+				if user
+					UserGroup.where('user_id = ? and group_id = ?', user.id, group.id).delete_all
+				end
+			end
+		end
+		render plain: 'ok'
+	end
+
 	def add_friend
 		user_id = params[:user_id]
 		friend_id = params[:friend_id]
@@ -244,6 +260,15 @@ class Api::ImController < ApplicationController
 		end
 		if UserFriend.where('user_id = ? and friend_id = ?', friend_id, user_id).blank?
 			UserFriend.create(:user_id => friend_id, :friend_id => user_id)
+		end
+		render plain: 'ok'
+	end
+
+	def remove_friend
+		user_id = params[:user_id]
+		friend_id = params[:friend_id]
+		unless UserFriend.where('user_id = ? and friend_id = ?', user_id, friend_id).blank?
+			UserFriend.where('user_id = ? and friend_id = ?', user_id, friend_id).delete_all
 		end
 		render plain: 'ok'
 	end
