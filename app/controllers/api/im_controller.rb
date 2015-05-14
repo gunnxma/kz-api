@@ -239,9 +239,11 @@ class Api::ImController < ApplicationController
 	def add_friend
 		user_id = params[:user_id]
 		friend_id = params[:friend_id]
-		puts "user_id:#{params[:user_id]}"
 		if UserFriend.where('user_id = ? and friend_id = ?', user_id, friend_id).blank?
 			UserFriend.create(:user_id => user_id, :friend_id => friend_id)
+		end
+		if UserFriend.where('user_id = ? and friend_id = ?', friend_id, user_id).blank?
+			UserFriend.create(:user_id => friend_id, :friend_id => user_id)
 		end
 		render plain: 'ok'
 	end
