@@ -79,6 +79,7 @@ Rails.application.routes.draw do
     post 'im/add_friend'
     post 'im/group_remove_member'
     post 'im/remove_friend'
+    post 'im/remove_group'
     get 'units/sub_units_by_type'
     resources :units
   end

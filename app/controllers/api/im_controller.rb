@@ -252,6 +252,17 @@ class Api::ImController < ApplicationController
 		render plain: 'ok'
 	end
 
+	def remove_group
+		ease_groupid = params[:ease_groupid]
+		
+		group = Group.where('ease_groupid = ?', ease_groupid).first
+		if group
+			UserGroup.where('group_id = ?', group.id).delete_all
+			group.destroy
+		end
+		render plain: 'ok'
+	end
+
 	def add_friend
 		user_id = params[:user_id]
 		friend_id = params[:friend_id]
