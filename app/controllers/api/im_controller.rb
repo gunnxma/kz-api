@@ -264,8 +264,11 @@ class Api::ImController < ApplicationController
 	end
 
 	def add_friend
-		user_id = params[:user_id]
-		friend_id = params[:friend_id]
+		ease_id = params[:ease_id]
+		friend_ease_id = params[:friend_ease_id]
+
+		user_id = get_user_by_ease_id(ease_id).id
+		friend_id = get_user_by_ease_id(friend_ease_id).id
 		if UserFriend.where('user_id = ? and friend_id = ?', user_id, friend_id).blank?
 			UserFriend.create(:user_id => user_id, :friend_id => friend_id)
 		end
@@ -276,8 +279,11 @@ class Api::ImController < ApplicationController
 	end
 
 	def remove_friend
-		user_id = params[:user_id]
-		friend_id = params[:friend_id]
+		ease_id = params[:ease_id]
+		friend_ease_id = params[:friend_ease_id]
+
+		user_id = get_user_by_ease_id(ease_id).id
+		friend_id = get_user_by_ease_id(friend_ease_id).id
 		unless UserFriend.where('user_id = ? and friend_id = ?', user_id, friend_id).blank?
 			UserFriend.where('user_id = ? and friend_id = ?', user_id, friend_id).delete_all
 		end
