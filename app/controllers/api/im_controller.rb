@@ -287,6 +287,9 @@ class Api::ImController < ApplicationController
 		unless UserFriend.where('user_id = ? and friend_id = ?', user_id, friend_id).blank?
 			UserFriend.where('user_id = ? and friend_id = ?', user_id, friend_id).delete_all
 		end
+		unless UserFriend.where('user_id = ? and friend_id = ?', friend_id, user_id).blank?
+			UserFriend.where('user_id = ? and friend_id = ?', friend_id, user_id).delete_all
+		end
 		render plain: 'ok'
 	end
 
