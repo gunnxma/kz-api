@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-role_list = ['管理员', '教研员', '教师', '学生', '家长', '专家']
+role_list = ['管理员', '教研员', '教师', '学生', '家长', '专家', '教务主任', '教研组长']
 role_list.each do |item|
 	Role.create(:name => item) if Role.where('name = ? ', item).empty?
 end

@@ -80,6 +80,8 @@ Rails.application.routes.draw do
     post 'im/group_remove_member'
     post 'im/remove_friend'
     post 'im/remove_group'
+    get 'im/photo_test'
+    post 'im/photo'
     get 'units/sub_units_by_type'
     resources :units
   end

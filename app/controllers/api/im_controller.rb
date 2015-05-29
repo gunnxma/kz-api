@@ -293,6 +293,18 @@ class Api::ImController < ApplicationController
 		render plain: 'ok'
 	end
 
+	def photo_test
+		render 'photo_test', layout: nil
+	end
+
+	def photo
+		user_id = params[:user_id]
+		user = User.find(user_id)
+		user.logo = params[:logo]
+		user.save
+		render plain: user.logo_url
+	end
+
 	private
 
 	def get_user_by_ease_id(ease_id)
