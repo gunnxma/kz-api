@@ -70,7 +70,7 @@ Rails.application.routes.draw do
     resources :grades
     resources :subjects
     resources :departments
-    post 'im/login'
+    get 'im/login'
     get 'im/contacts'
     get 'im/get_group_member'
     get 'im/get_user_info'

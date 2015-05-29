@@ -1,6 +1,10 @@
 json.array! @users do |user|
 	json.id user.id
-	json.name user.name
+	if user.role_id == 5
+		json.name "#{user.name}家长"
+	else
+		json.name user.name
+	end
 	json.role_name user.role ? user.role.name : nil
 	json.email user.email
 	json.mobile user.mobile

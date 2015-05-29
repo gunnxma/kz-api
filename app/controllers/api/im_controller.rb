@@ -132,7 +132,7 @@ class Api::ImController < ApplicationController
 							g_group << { userid: u.id, ease_userid: j.ease_userid, name: "#{u.name}家长-#{j.name}", logo: j.logo.thumb.url, subscription: 'both'}
 						end
 					end
-					Group.add(group[:name], "home_#{user.unit_id}_#{klass.id}", g_group)
+					Group.add("#{klass.year}级#{klass.name}班-家长", "home_#{user.unit_id}_#{klass.id}", g_group)
 				end
 			end
 		end
