@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
             :uniqueness => { :message => "帐号已经存在" },
             :length => {:minimum => 1, :maximum => 254, :message => "帐号长度不能超过254个" }
 
-  validate :account_validation
+  #validate :account_validation
 
   validates :pwd,
             :presence => { :message => "密码不能为空" },
