@@ -11,7 +11,12 @@ class Api::ImController < ApplicationController
 
 		group = { name: "我的好友", contacts: [] }
 		user.friends.each do |u|
-			group[:contacts] << { userid: u.id, ease_userid: u.ease_userid, name: u.name, logo: u.logo.thumb.url, subscription: 'both'}
+			if u.role_id == 5
+				u_name = "#{u.name}家长"
+			else
+				u_name = u.name
+			end
+			group[:contacts] << { userid: u.id, ease_userid: u.ease_userid, name: u_name, logo: u.logo.thumb.url, subscription: 'both'}
 		end
 		@groups << group
 
