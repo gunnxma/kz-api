@@ -69,7 +69,7 @@ class Api::ImController < ApplicationController
 				group = { name: "#{klass.year}级#{klass.name}班-家长", contacts: []}
 				klass.users.where('role_id = ?', 4).each do |u|
 					u.parents.each do |j|
-						group[:contacts] << { userid: u.id, ease_userid: j.ease_userid, name: "#{u.name}家长-#{j.name}", logo: j.logo.thumb.url, subscription: 'both'}
+						group[:contacts] << { userid: j.id, ease_userid: j.ease_userid, name: "#{u.name}家长-#{j.name}", logo: j.logo.thumb.url, subscription: 'both'}
 					end
 				end
 				@groups << group
@@ -129,7 +129,7 @@ class Api::ImController < ApplicationController
 					g_group = []
 					klass.users.where('role_id = ?', 4).each do |u|
 						u.parents.each do |j|
-							g_group << { userid: u.id, ease_userid: j.ease_userid, name: "#{u.name}家长-#{j.name}", logo: j.logo.thumb.url, subscription: 'both'}
+							g_group << { userid: j.id, ease_userid: j.ease_userid, name: "#{u.name}家长-#{j.name}", logo: j.logo.thumb.url, subscription: 'both'}
 						end
 					end
 					Group.add("#{klass.year}级#{klass.name}班-家长", "home_#{user.unit_id}_#{klass.id}", g_group)
