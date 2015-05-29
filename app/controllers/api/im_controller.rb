@@ -301,8 +301,11 @@ class Api::ImController < ApplicationController
 		user_id = params[:user_id]
 		user = User.find(user_id)
 		user.logo = params[:logo]
-		user.save!
-		render plain: user.logo_url
+		if user.save
+			render plain: user.logo_url
+		else
+			render plain: 'err'
+		end
 	end
 
 	private
