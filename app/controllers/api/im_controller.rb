@@ -301,7 +301,7 @@ class Api::ImController < ApplicationController
 		user_id = params[:user_id]
 		user = User.find(user_id)
 		user.logo = params[:logo]
-		user.save
+		user.save!
 		render plain: user.logo_url
 	end
 
