@@ -28,8 +28,9 @@ class User < ActiveRecord::Base
   #validate :account_validation
 
   validates :pwd,
-            :presence => { :message => "密码不能为空" },
-            :length => {:minimum => 6, :maximum => 254, :message => "密码长度不能少于6位" }
+            :presence => { :message => "密码不能为空" }
+            #,
+            #:length => {:minimum => 6, :maximum => 254, :message => "密码长度不能少于6位" }
 
   validates :name,
             :length => { :maximum => 254, :message => "姓名长度不能超过254个" }
